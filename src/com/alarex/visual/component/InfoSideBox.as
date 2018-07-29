@@ -9,92 +9,94 @@ package com.alarex.visual.component
 	import flash.text.AntiAliasType;
 	import flash.text.TextFormatAlign;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class InfoSideBox extends Sprite 
 	{
 		
-		[Embed(source='\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x6c\x69\x62\x2f\x76\x6f\x64\x61\x66\x6f\x6e\x65\x2e\x74\x74\x66', fontFamily="\x76\x6f\x64\x61\x46\x6f\x6e\x74")]
-		public var _Qx8Y9:Class;
+		[Embed(source='../../../../../lib/vodafone.ttf', fontFamily="vodaFont")]
+		public var VodaFont:Class;
 		
 		public function InfoSideBox(bigString:String, smallString:String) 
 		{
-						
+			// 165x78
+			
 			this.cacheAsBitmap = true;
 			
-			var _K8ugz:Matrix = new Matrix();
-			var _iG1Ot:Array =[0xffffff,0xffffff];  
-			var _5r7oh:Array =[1,0.4];
-			var _gO0MI:Array =[0,255];
-			_K8ugz.createGradientBox(160, 78,0,0,0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _iG1Ot, _5r7oh, _gO0MI, _K8ugz);
+			var mat:Matrix = new Matrix();
+			var colors:Array =[0xffffff,0xffffff];  
+			var alphas:Array =[1,0.4];
+			var ratios:Array =[0,255];
+			mat.createGradientBox(160, 78,0,0,0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, mat);
 			this.graphics.drawRect(0, 0, 165, 78);
 			this.graphics.endFill();
 			
-			var _lP3yl:Matrix = new Matrix();
-			var _7m8cZ:Array =[0x000000,0x000000];  
-			var _BRGo5:Array =[0.3,0.0];
-			var _UU007:Array =[0,255];
-			_lP3yl.createGradientBox(165, 3,Math.PI/2,0,79);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _7m8cZ, _BRGo5, _UU007, _lP3yl);
+			var mat2:Matrix = new Matrix();
+			var colors2:Array =[0x000000,0x000000];  
+			var alphas2:Array =[0.3,0.0];
+			var ratios2:Array =[0,255];
+			mat2.createGradientBox(165, 3,Math.PI/2,0,79);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors2, alphas2, ratios2, mat2);
 			this.graphics.drawRect(0, 78, 165, 165);
 			this.graphics.endFill();
 			
 			
 			
 			
-			var _R5E46:TextField = new TextField();
-			_R5E46.selectable = false;
+			var text1:TextField = new TextField();
+			text1.selectable = false;
 			
-			_R5E46.antiAliasType = AntiAliasType.ADVANCED;
-			_R5E46.embedFonts = true;
+			text1.antiAliasType = AntiAliasType.ADVANCED;
+			text1.embedFonts = true;
 			
-			_R5E46.text = bigString;
-			_R5E46.alpha = 1;
-			_R5E46.x = 0;
-			_R5E46.y = 2;
+			text1.text = bigString;
+			text1.alpha = 1;
+			text1.x = 0;
+			text1.y = 2;
 					
-			_R5E46.height = 40*2;
+			text1.height = 40*2;
 			
-			var _Grihg:TextFormat = new TextFormat();
-			_Grihg.align =  TextFormatAlign.CENTER;
-			_Grihg.size = 40;
-			_Grihg.font = "\x76\x6f\x64\x61\x46\x6f\x6e\x74";
-			_Grihg.color = 0x7bac86;
+			var format1:TextFormat = new TextFormat();
+			format1.align =  TextFormatAlign.CENTER;
+			format1.size = 40;
+			format1.font = "vodaFont";
+			format1.color = 0x7bac86;
 			
-			_R5E46.setTextFormat(_Grihg);
-			_R5E46.width = 165;
-			_R5E46.height = _R5E46.textHeight;
+			text1.setTextFormat(format1);
+			text1.width = 165;
+			text1.height = text1.textHeight;
 			
-			this.addChild(_R5E46);
+			this.addChild(text1);
 			
-						
-			var _97soU:TextField = new TextField();
-			_97soU.selectable = false;
+			// ---
 			
-			_97soU.antiAliasType = AntiAliasType.ADVANCED;
-			_97soU.embedFonts = true;
+			var text2:TextField = new TextField();
+			text2.selectable = false;
 			
-			_97soU.text = smallString;
-			_97soU.alpha = 1;
-			_97soU.x = 0;
-			_97soU.y = 48;
+			text2.antiAliasType = AntiAliasType.ADVANCED;
+			text2.embedFonts = true;
+			
+			text2.text = smallString;
+			text2.alpha = 1;
+			text2.x = 0;
+			text2.y = 48;
 					
-			_97soU.height = 20*2;
+			text2.height = 20*2;
 			
-			var _VcxPG:TextFormat = new TextFormat();
-			_VcxPG.align =  TextFormatAlign.CENTER;
-			_VcxPG.size = 15;
-			_VcxPG.font = "\x76\x6f\x64\x61\x46\x6f\x6e\x74";
-			_VcxPG.color = 0x333333;
+			var format2:TextFormat = new TextFormat();
+			format2.align =  TextFormatAlign.CENTER;
+			format2.size = 15;
+			format2.font = "vodaFont";
+			format2.color = 0x333333;
 			
-			_97soU.setTextFormat(_VcxPG);
-			_97soU.width = 165;
-			_97soU.height = _97soU.textHeight;
+			text2.setTextFormat(format2);
+			text2.width = 165;
+			text2.height = text2.textHeight;
 			
-			this.addChild(_97soU);
+			this.addChild(text2);
 			
 		}
 		

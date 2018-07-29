@@ -5,60 +5,114 @@ package com.alarex.visual.liveComponents
 	import com.alarex.visual.component.SmallLabel;
 	import com.alarex.visual.component.Wheel;
 	import flash.display.Sprite;
+	import com.greensock.TweenLite;
+	import flash.events.MouseEvent;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class SumGauge extends Sprite 
 	{
 		
-		private var _kBTef:GaugeFrame;
-		private var _R9zKG:SmallLabel;
-		private var _zaYHX:SmallLabel;
-		private var _jjS5H:Wheel;
-		private var _lI6tx:CylinderString;
+		private var frame:GaugeFrame;
+		private var label1:SmallLabel;
+		private var label2:SmallLabel;
+		private var wheel:Wheel;
+		private var sum:CylinderString;
 		
-		public function SumGauge() 
+		private var overlay:Sprite;
+		private var fnc:Function = null;
+		
+		
+		public function SumGauge(english:Boolean = false ) 
 		{
 			this.cacheAsBitmap = true;
 			
-			_kBTef = new GaugeFrame();
-			this.addChild(_kBTef);
+			frame = new GaugeFrame();
+			this.addChild(frame);
 			
-			_R9zKG = new SmallLabel("\x55\xc5\xa1\x65\x74\xc5\x99\x65\x6e\x6f\x3a", 15, false);
-			this.addChild(_R9zKG);
-			_R9zKG.x = 91 - _R9zKG.getXres() / 2;
-			_R9zKG.y = 40;
+			if (!english) {
+				label1 = new SmallLabel("Ušetřeno:", 15, false);
+			} else {
+				label1 = new SmallLabel("You Saved:", 15, false);
+			}
+			this.addChild(label1);
+			label1.x = 91 - label1.getXres() / 2;
+			label1.y = 40;
 			
-			_zaYHX = new SmallLabel("\x4b\x69\x6c\x6f\x77\x61\x74\x74\x20\x68\x6f\x64\x69\x6e", 15, false);
-			this.addChild(_zaYHX);
-			_zaYHX.x = 91 - _zaYHX.getXres() / 2;
-			_zaYHX.y = 100;
+			if (!english) {
+				label2 = new SmallLabel("Kilowatt hodin", 15, false);
+			} else {
+				label2 = new SmallLabel("Kilowatt Hours", 15, false);
+			}
+			this.addChild(label2);
+			label2.x = 91 - label2.getXres() / 2;
+			label2.y = 100;
 			
-			_jjS5H = new Wheel();
-			this.addChild(_jjS5H);
-			_jjS5H.x = 42;
-			_jjS5H.y = 130;
+			wheel = new Wheel();
+			this.addChild(wheel);
+			wheel.x = 42;
+			wheel.y = 130;
 			
-			_lI6tx = new CylinderString("\x30\x30\x30\x30\x30\x30", "\x30\x30\x30");
-			this.addChild(_lI6tx);
-			_lI6tx.scaleX = 0.18;
-			_lI6tx.scaleY = 0.18;
+			sum = new CylinderString("000000", "000");
+			this.addChild(sum);
+			sum.scaleX = 0.18;
+			sum.scaleY = 0.18;
 			
-			_lI6tx.x = 37;
-			_lI6tx.y = 70;
+			sum.x = 37;
+			sum.y = 70;
 			
-			this._jjS5H.setSpeedFactor(0.0);
+			this.wheel.setSpeedFactor(0.0);
+			
+				overlay = new Sprite();
+			overlay.graphics.beginFill(0xFFFFFF);
+			overlay.graphics.drawCircle(187 / 2, 187 / 2, 187 / 2);
+			overlay.graphics.endFill();
+			overlay.alpha = 0;
+			this.addChild(overlay);
+			overlay.buttonMode = true;
+			overlay.useHandCursor = true;
+			
+			
+		
+			overlay.addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
+			overlay.addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+			overlay.addEventListener(MouseEvent.MOUSE_DOWN, clickHandler);
 			
 		}
 		
-		public function _g3bU5(factor:Number):void {
-			this._jjS5H.setSpeedFactor(factor);
+		public function setWeelSpeedFactor(factor:Number):void {
+			this.wheel.setSpeedFactor(factor);
 		}
 		
-		public function _lpV2T(s:Number):void {
-			_lI6tx.changeString(s.toFixed(3));
+		public function setKWHSum(s:Number):void {
+			sum.changeString(s.toFixed(3));
+		}
+		
+		public function setGaugeClickHandler(f:Function):void {
+			this.fnc = f;
+		}
+		
+		public function clickHandler(me:MouseEvent):void {
+			TweenLite.to(overlay, 0.25, { alpha:0.2 , onComplete: backAnim } );
+		
+			if (fnc != null) {
+				fnc();
+			}
+		}
+		
+		public function backAnim():void {
+			TweenLite.to(overlay, 0.25, { alpha:0.5 } );
+		}
+		
+		
+		private function mouseOverHandler(me:MouseEvent):void {
+			TweenLite.to(overlay,2, { alpha:0.5 } );
+		}
+		
+		private function mouseOutHandler(me:MouseEvent):void {
+			TweenLite.to(overlay,2, { alpha:0.0 } );
 		}
 		
 	}

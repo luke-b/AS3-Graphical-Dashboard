@@ -2,82 +2,82 @@ package com.alarex.visual.component
 {
 	import flash.display.Sprite;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class DigitalString extends Sprite 
 	{
 		
 	
-		private var _kplEh:int = 0;
-		private var _lsyDn:Array;
-		private var _V6OJy:int = -1;
-		private var _09edb:Boolean = false;
+		private var digitCount:int = 0;
+		private var digits:Array;
+		private var dotOffset:int = -1;
+		private var unsigned:Boolean = false;
 		
-		public function DigitalString(mask:String,_V6OJy:int = -1,unsign:Boolean=false) 
+		public function DigitalString(mask:String,dotOffset:int = -1,unsign:Boolean=false) 
 		{
-			this._kplEh = mask.length+(unsign?0:1);
-			this._lsyDn = new Array();
+			this.digitCount = mask.length+(unsign?0:1);
+			this.digits = new Array();
 			
 			this.cacheAsBitmap = true;
 			
-			this._09edb = unsign;
+			this.unsigned = unsign;
 			
-			var _pi0zO:int = 0;
+			var lastX:int = 0;
 			
-			this._V6OJy = _V6OJy;
+			this.dotOffset = dotOffset;
 			
-			for (var _KjS1H:int = 0; _KjS1H < this._kplEh; _KjS1H++) {
-				var _2Keq0:DigitalDigit = new DigitalDigit();
-				_2Keq0.x = _pi0zO;
+			for (var i:int = 0; i < this.digitCount; i++) {
+				var digit:DigitalDigit = new DigitalDigit();
+				digit.x = lastX;
 			
-				_pi0zO += _2Keq0.width;
+				lastX += digit.width;
 				
-				this._lsyDn.push(_2Keq0);
-				this.addChild(_2Keq0);
+				this.digits.push(digit);
+				this.addChild(digit);
 			}
 		}
 		
 		
-		public function _gVwJ5(newString:String):void {
+		public function changeString(newString:String):void {
 			
 			
-			var _s21Ll:String = newString;		
+			var s:String = newString;		
 			
-			if (_s21Ll.indexOf("\x2e") != -1) {
-				this._V6OJy = (this._kplEh - 1) - ((_s21Ll.length) - _s21Ll.indexOf("\x2e"));		
+			if (s.indexOf(".") != -1) {
+				this.dotOffset = (this.digitCount - 1) - ((s.length) - s.indexOf("."));		
 				
-				var _0yI5K:int = _s21Ll.indexOf("\x2e");
+				var p:int = s.indexOf(".");
 				
-				_s21Ll = _s21Ll.substring(0, _0yI5K) + _s21Ll.substring(_0yI5K + 1, _s21Ll.length);
+				s = s.substring(0, p) + s.substring(p + 1, s.length);
 				
 			} else {
-				this._V6OJy = -1;
+				this.dotOffset = -1;
 			}
 			
 			
-			if (!_09edb) {
-				if (newString.indexOf("\x2d") != -1) {
-					var _AQVRI:DigitalDigit = _lsyDn[0] as DigitalDigit;
-					_AQVRI.changeNumber("\x2d");
-					_s21Ll = _s21Ll.replace("\x2d", "\x30");
+			if (!unsigned) {
+				if (newString.indexOf("-") != -1) {
+					var d2:DigitalDigit = digits[0] as DigitalDigit;
+					d2.changeNumber("-");
+					s = s.replace("-", "0");
 				}
 			}
 			
-			if (_s21Ll.length > this._kplEh) 
+			if (s.length > this.digitCount) 
 				return;
 			
-			while (_s21Ll.length < this._kplEh-1) {
-				_s21Ll = "\x30" + _s21Ll;
+			while (s.length < this.digitCount-1) {
+				s = "0" + s;
 			}
 		
-			for (var _KjS1H:int = 0; _KjS1H < _s21Ll.length; _KjS1H++) {
+			for (var i:int = 0; i < s.length; i++) {
 				
-				var _GpOZr:DigitalDigit = _lsyDn[_KjS1H+(!_09edb?1:0)] as DigitalDigit;
-				var _2EPex:String = _s21Ll.charAt(_KjS1H);
+				var d:DigitalDigit = digits[i+(!unsigned?1:0)] as DigitalDigit;
+				var dv:String = s.charAt(i);
 											
-				_GpOZr.changeNumber(_2EPex,(_KjS1H==_V6OJy?true:false));
+				d.changeNumber(dv,(i==dotOffset?true:false));
 								
 			}
 						

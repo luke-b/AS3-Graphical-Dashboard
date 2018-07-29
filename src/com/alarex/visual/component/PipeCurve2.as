@@ -10,220 +10,228 @@ package com.alarex.visual.component
 	import flash.events.TimerEvent;
 	
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class PipeCurve2 extends Sprite 
 	{
 		
-		private	var _Piu1j:Sprite = new Sprite();
-		private var _NIMXB:Array = new Array();
-		private var _ojgL9:Number = 0.0;
+		private	var da:Sprite = new Sprite();
+		private var spots:Array = new Array();
+		private var animOffset:Number = 0.0;
 		
-		private var _bC43c:Sprite = new Sprite();
+		private var rotor:Sprite = new Sprite();
 		
-		private var _LLO55:Number;
-		private var _1m2q8:Number;
-		private var _unquw:Number;
+		private var countX:Number;
+		private var radiusX:Number;
+		private var thinknessX:Number;
 		
-		private var _VISMv:Boolean;
-		private var _QbZkO:Number;
+		private var dir:Boolean;
+		private var dirVal:Number;
 		
-		private var _522KC:Number = 0.0;
+		private var dirFac:Number = 0.0;
 		
 		public function PipeCurve2(color:int, radius:int, thinkness:int, rt:Number, reverse:Boolean=false) 
 		{
 			
 			this.cacheAsBitmap = true;
 			
-			this._VISMv = reverse;
+			this.dir = reverse;
 			
-			var _iQstS:Number = 2 * Math.PI * radius / 4;
-			var _IKCI7:Number = _iQstS / rt;
+			var cl:Number = 2 * Math.PI * radius / 4;
+			var cc:Number = cl / rt;
 			
-			var _15mFC:Number = 90 / _IKCI7;
-			var _KeUhk:Number = _15mFC * 0.1;
+			var dll:Number = 90 / cc;
+			var px:Number = dll * 0.1;
 			
-			if (_VISMv) {
-				_QbZkO = -_KeUhk;
+			if (dir) {
+				dirVal = -px;
 			} else {
-				_QbZkO = _KeUhk;
+				dirVal = px;
 			}
 			
-			var _kB6Tl:Sprite =  new Sprite();
-			var _Mkq5X:BlurFilter = new BlurFilter(5, 5);
+			var bg:Sprite =  new Sprite();
+			var bf:BlurFilter = new BlurFilter(5, 5);
 			
-			var _f9mw4:Sprite = new Sprite();
-			_f9mw4.cacheAsBitmap = true;
-			_f9mw4.graphics.beginFill(0x000000);
-			_f9mw4.graphics.drawCircle(0, 0, radius + 4);
-			_f9mw4.graphics.endFill();
+			var p1:Sprite = new Sprite();
+			p1.cacheAsBitmap = true;
+			p1.graphics.beginFill(0x000000);
+			p1.graphics.drawCircle(0, 0, radius + 4);
+			p1.graphics.endFill();
 			
-			_f9mw4.filters = [_Mkq5X];
-			_f9mw4.blendMode = BlendMode.LAYER;
+			p1.filters = [bf];
+			p1.blendMode = BlendMode.LAYER;
 			
-			var _EzODZ:Sprite = new Sprite();
-			_EzODZ.cacheAsBitmap = true;
-			_EzODZ.graphics.beginFill(0x00ff00);
-			_EzODZ.graphics.drawCircle(0, 0, radius - thinkness - 4);
-			_EzODZ.graphics.endFill();
+			var p1b:Sprite = new Sprite();
+			p1b.cacheAsBitmap = true;
+			p1b.graphics.beginFill(0x00ff00);
+			p1b.graphics.drawCircle(0, 0, radius - thinkness - 4);
+			p1b.graphics.endFill();
 			
-			_EzODZ.blendMode = BlendMode.ERASE;
+			p1b.blendMode = BlendMode.ERASE;
 			
-			_f9mw4.addChild(_EzODZ);
+			p1.addChild(p1b);
 			
-			_f9mw4.alpha = 0.5;
+			p1.alpha = 0.5;
 			
-			_kB6Tl.addChild(_f9mw4);
-			
-			
-			
-			var _L1KMN:Sprite = new Sprite();
-			_L1KMN.cacheAsBitmap = true;
-			_L1KMN.graphics.beginFill(0xFFFFFF);
-			_L1KMN.graphics.drawCircle(0, 0, radius +2 );
-			_L1KMN.graphics.endFill();
-			
-			_L1KMN.graphics.beginFill(color);
-			_L1KMN.graphics.drawCircle(0, 0, radius);
-			_L1KMN.graphics.endFill();
-			
-			_L1KMN.graphics.beginFill(0xFFFFFF);
-			_L1KMN.graphics.drawCircle(0, 0, radius - thinkness);
-			_L1KMN.graphics.endFill();
-			
-			_L1KMN.blendMode = BlendMode.LAYER;
+			bg.addChild(p1);
 			
 			
-			var _Sdq7x:Sprite = new Sprite();
-			_Sdq7x.cacheAsBitmap = true;
-			_Sdq7x.graphics.beginFill(0x00ff00);
-			_Sdq7x.graphics.drawCircle(0, 0, radius - thinkness - 2);
-			_Sdq7x.graphics.endFill();
 			
-			_Sdq7x.blendMode = BlendMode.ERASE;
+			var p2:Sprite = new Sprite();
+			p2.cacheAsBitmap = true;
+			p2.graphics.beginFill(0xFFFFFF);
+			p2.graphics.drawCircle(0, 0, radius +2 );
+			p2.graphics.endFill();
 			
-			_L1KMN.addChild(_Sdq7x);
-			_kB6Tl.cacheAsBitmap = true;
-			_kB6Tl.addChild(_L1KMN);
+			p2.graphics.beginFill(color);
+			p2.graphics.drawCircle(0, 0, radius);
+			p2.graphics.endFill();
+			
+			p2.graphics.beginFill(0xFFFFFF);
+			p2.graphics.drawCircle(0, 0, radius - thinkness);
+			p2.graphics.endFill();
+			
+			p2.blendMode = BlendMode.LAYER;
 			
 			
-			var _9YocF:Sprite = new Sprite();
-			_9YocF.graphics.beginFill(0xff0000);
-			_9YocF.graphics.drawRect( -radius - 4 - 5, -radius - 4 - 5, radius + 4 + 5, radius + 4 + 5);
-			_9YocF.graphics.endFill();
-			_9YocF.cacheAsBitmap = true;
-			this.addChild(_kB6Tl);
-			this.addChild(_9YocF);
-			_kB6Tl.mask = _9YocF;
+			var p2b:Sprite = new Sprite();
+			p2b.cacheAsBitmap = true;
+			p2b.graphics.beginFill(0x00ff00);
+			p2b.graphics.drawCircle(0, 0, radius - thinkness - 2);
+			p2b.graphics.endFill();
 			
-						
+			p2b.blendMode = BlendMode.ERASE;
+			
+			p2.addChild(p2b);
+			bg.cacheAsBitmap = true;
+			bg.addChild(p2);
+			
+			
+			var m1:Sprite = new Sprite();
+			m1.graphics.beginFill(0xff0000);
+			m1.graphics.drawRect( -radius - 4 - 5, -radius - 4 - 5, radius + 4 + 5, radius + 4 + 5);
+			m1.graphics.endFill();
+			m1.cacheAsBitmap = true;
+			this.addChild(bg);
+			this.addChild(m1);
+			bg.mask = m1;
+			
+			//---- drawing area ----
+			
 		
-												
-			_Piu1j.blendMode = BlendMode.LAYER;
-			_Piu1j.cacheAsBitmap = true;
+			//da.graphics.beginFill(0x00ff00);
+			//da.graphics.drawRect( -radius - 4, -radius - 4, radius + 4, radius + 4);
+			//da.graphics.endFill();
 			
-			var _S3ER5:Sprite = new Sprite();
-			_S3ER5.graphics.beginFill(0xff0000);
-			_S3ER5.graphics.drawCircle(0, 0, radius - thinkness);
-			_S3ER5.graphics.endFill();
-			_S3ER5.cacheAsBitmap = true;
-			_S3ER5.graphics.beginFill(0x0000ff);
-			_S3ER5.graphics.drawRect(0, -radius, radius, radius*2);
-			_S3ER5.graphics.endFill();
+			da.blendMode = BlendMode.LAYER;
+			da.cacheAsBitmap = true;
 			
-			_S3ER5.graphics.beginFill(0x0000ff);
-			_S3ER5.graphics.drawRect( -radius, 0, radius, radius);
-			_S3ER5.graphics.endFill();
+			var dab:Sprite = new Sprite();
+			dab.graphics.beginFill(0xff0000);
+			dab.graphics.drawCircle(0, 0, radius - thinkness);
+			dab.graphics.endFill();
+			dab.cacheAsBitmap = true;
+			dab.graphics.beginFill(0x0000ff);
+			dab.graphics.drawRect(0, -radius, radius, radius*2);
+			dab.graphics.endFill();
 			
-			_S3ER5.blendMode = BlendMode.ERASE;
+			dab.graphics.beginFill(0x0000ff);
+			dab.graphics.drawRect( -radius, 0, radius, radius);
+			dab.graphics.endFill();
+			
+			dab.blendMode = BlendMode.ERASE;
 			
 			
 			
-			var _zWGp4:Sprite = new Sprite();
-			_zWGp4.graphics.beginFill(0x0000ff);
-			_zWGp4.graphics.drawCircle(0, 0, radius);
-			_zWGp4.graphics.endFill();
+			var dam:Sprite = new Sprite();
+			dam.graphics.beginFill(0x0000ff);
+			dam.graphics.drawCircle(0, 0, radius);
+			dam.graphics.endFill();
 			
-			_zWGp4.cacheAsBitmap = true;
+			dam.cacheAsBitmap = true;
 					
 			
-			this.addChild(_Piu1j);
-			this.addChild(_zWGp4);
-			_Piu1j.mask = _zWGp4;
+			this.addChild(da);
+			this.addChild(dam);
+			da.mask = dam;
 			
-			_Piu1j.addChild(_bC43c);
+			da.addChild(rotor);
 			
-			var _z8Ccv:Number = (2 * Math.PI * radius) / 4 / rt;
+			var count:Number = (2 * Math.PI * radius) / 4 / rt;
 			
-			rt = 90 / _z8Ccv;
+			rt = 90 / count;
 		
 				
-			this._LLO55 = _z8Ccv;
-			this._1m2q8 = radius;
-			this._unquw = thinkness;
+			this.countX = count;
+			this.radiusX = radius;
+			this.thinknessX = thinkness;
 			
-			_bC43c.cacheAsBitmap = true;
+			rotor.cacheAsBitmap = true;
 			
-			var _pF0v8:Number = ((2 * Math.PI * radius) / 4) / _z8Ccv;
-			for (var _s8Pfn:int = 0; _s8Pfn < _z8Ccv * 4; _s8Pfn++) {
+			var spotLength:Number = ((2 * Math.PI * radius) / 4) / count;
+			for (var c:int = 0; c < count * 4; c++) {
 				
 				
-				var _0Rk4F:Sprite = this._5a1PI(_pF0v8);
-				if (_VISMv) _0Rk4F.scaleY *= -1;
-							_bC43c.addChild(_0Rk4F);
-				_0Rk4F.rotation = _s8Pfn*rt;
+				var spp:Sprite = this.createSpot(spotLength);
+				if (dir) spp.scaleY *= -1;
+			//	spp.x = -radius + thinkness / 2;
+				rotor.addChild(spp);
+				spp.rotation = c*rt;
 				
-				_NIMXB.push(_0Rk4F);
+				spots.push(spp);
 				
 			}
 		
-			_bC43c.alpha = 0.0;
+			rotor.alpha = 0.0;
 			
-			addEventListener(Event.ENTER_FRAME,_xUlqq);
+			addEventListener(Event.ENTER_FRAME,updateAnim);
 			
-								
-			_Piu1j.addChild(_S3ER5); 		
+			//var myTimer:Timer = new Timer(30, 0);
+			//myTimer.addEventListener(TimerEvent.TIMER, updateAnim);
+		
+			da.addChild(dab); //has to be last
+		
 		}
 		
 		
-		public function _ZMhbJ(f:Number):void {
+		public function setDirFac(f:Number):void {
 			
-			var _nPFRF:Number = f;
+			var v:Number = f;
 			
-			if (f < 0) _nPFRF = 0;
-			if (f > 1) _nPFRF = 1;
+			if (f < 0) v = 0;
+			if (f > 1) v = 1;
 			
 			if (f == 0) {
-				_bC43c.alpha = 0;
+				rotor.alpha = 0;
 			} else {
-				_bC43c.alpha = 1;
+				rotor.alpha = 1;
 			}
 			
-			this._522KC = _nPFRF;
+			this.dirFac = v;
 			
 		}
 		
 		
-		public function _xUlqq(e:Event):void {
-			_bC43c.rotation += this._QbZkO*this._522KC;
+		public function updateAnim(e:Event):void {
+			rotor.rotation += this.dirVal*this.dirFac;
 		}
 		
-		private function _5a1PI(length:Number):Sprite {
+		private function createSpot(length:Number):Sprite {
 			
-			var _u4m9J:Sprite = new Sprite();
+			var spot:Sprite = new Sprite();
 			
-			var _i2vjj:Matrix = new Matrix();
-			var _Qul2C:Array =[0xffffff,0xffffff];  
-			var _1wKnK:Array =[0.8,0];
-			var _pXks0:Array = [0,255];
-			_i2vjj.createGradientBox(length, length/2,Math.PI/2,0,-length/2);
-			_u4m9J.graphics.beginGradientFill(GradientType.LINEAR,_Qul2C,_1wKnK,_pXks0,_i2vjj);
-			_u4m9J.graphics.drawCircle(-_1m2q8 + _unquw/2, 0, length / 2);
-			_u4m9J.graphics.endFill();
-			_u4m9J.cacheAsBitmap = true;	
-			return _u4m9J;
+			var mat2:Matrix = new Matrix();
+			var colors2:Array =[0xffffff,0xffffff];  
+			var alphas2:Array =[0.8,0];
+			var ratios2:Array = [0,255];
+			mat2.createGradientBox(length, length/2,Math.PI/2,0,-length/2);
+			spot.graphics.beginGradientFill(GradientType.LINEAR,colors2,alphas2,ratios2,mat2);
+			spot.graphics.drawCircle(-radiusX + thinknessX/2, 0, length / 2);
+			spot.graphics.endFill();
+			spot.cacheAsBitmap = true;	
+			return spot;
 		}
 		
 	}

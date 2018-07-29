@@ -4,10 +4,10 @@ package com.alarex.visual.component
 	import flash.filters.BlurFilter;
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class BoilerSymbol extends Sprite 
 	{
 		
@@ -15,97 +15,97 @@ package com.alarex.visual.component
 		{
 			this.cacheAsBitmap = true;
 			
-			var _nBFTo:Sprite = new Sprite();
+			var bg:Sprite = new Sprite();
 			
-			var _stZ85:BlurFilter = new BlurFilter(10, 10);
+			var bf:BlurFilter = new BlurFilter(10, 10);
 			
-			_nBFTo.graphics.beginFill(0x000000);
-			_nBFTo.graphics.moveTo(1, 0);
-			_nBFTo.graphics.curveTo(12,-6,25, -6);
-			_nBFTo.graphics.curveTo(37,-6,49, 0)
-			_nBFTo.graphics.lineTo(50, 2);
-			_nBFTo.graphics.lineTo(50, 84);
-			_nBFTo.graphics.lineTo(49, 86);
-			_nBFTo.graphics.curveTo(37, 92,25, 92);
-			_nBFTo.graphics.curveTo(12,92,1, 86);
-			_nBFTo.graphics.lineTo(0, 84);
-			_nBFTo.graphics.lineTo(0, 2);
-			_nBFTo.graphics.endFill();
-			_nBFTo.alpha = 0.5;
-			_nBFTo.filters = [_stZ85];
+			bg.graphics.beginFill(0x000000);
+			bg.graphics.moveTo(1, 0);
+			bg.graphics.curveTo(12,-6,25, -6);
+			bg.graphics.curveTo(37,-6,49, 0)
+			bg.graphics.lineTo(50, 2);
+			bg.graphics.lineTo(50, 84);
+			bg.graphics.lineTo(49, 86);
+			bg.graphics.curveTo(37, 92,25, 92);
+			bg.graphics.curveTo(12,92,1, 86);
+			bg.graphics.lineTo(0, 84);
+			bg.graphics.lineTo(0, 2);
+			bg.graphics.endFill();
+			bg.alpha = 0.5;
+			bg.filters = [bf];
 			
-			_nBFTo.scaleY = 1.1;
+			bg.scaleY = 1.1;
 			
-			this.addChild(_nBFTo);
-			_nBFTo.y = 3;
+			this.addChild(bg);
+			bg.y = 3;
 			
-			var _dEhFW:Sprite = new Sprite();
-			_dEhFW.cacheAsBitmap = true;
+			var fg:Sprite = new Sprite();
+			fg.cacheAsBitmap = true;
 			
-			var _CZnyv:Matrix = new Matrix();
-			var _HylPY:Array = [0xffffff, 0xaaaaaa];  
-			var _ApGRG:Array =[1,1];
-			var _BXgJb:Array =[0,255];
-			_CZnyv.createGradientBox(50, 98, Math.PI/2,0,0);
-			_dEhFW.graphics.beginGradientFill(GradientType.LINEAR, _HylPY, _ApGRG, _BXgJb, _CZnyv);
-			_dEhFW.graphics.moveTo(1, 0);
-			_dEhFW.graphics.curveTo(12,-6,25, -6);
-			_dEhFW.graphics.curveTo(37,-6,49, 0)
-			_dEhFW.graphics.lineTo(50, 2);
-			_dEhFW.graphics.lineTo(50, 84);
-			_dEhFW.graphics.lineTo(49, 86);
-			_dEhFW.graphics.curveTo(37, 92,25, 92);
-			_dEhFW.graphics.curveTo(12,92,1, 86);
-			_dEhFW.graphics.lineTo(0, 84);
-			_dEhFW.graphics.lineTo(0, 2);
-			_dEhFW.graphics.endFill();
+			var mat:Matrix = new Matrix();
+			var colors:Array = [0xffffff, 0xaaaaaa];  
+			var alphas:Array =[1,1];
+			var ratios:Array =[0,255];
+			mat.createGradientBox(50, 98, Math.PI/2,0,0);
+			fg.graphics.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, mat);
+			fg.graphics.moveTo(1, 0);
+			fg.graphics.curveTo(12,-6,25, -6);
+			fg.graphics.curveTo(37,-6,49, 0)
+			fg.graphics.lineTo(50, 2);
+			fg.graphics.lineTo(50, 84);
+			fg.graphics.lineTo(49, 86);
+			fg.graphics.curveTo(37, 92,25, 92);
+			fg.graphics.curveTo(12,92,1, 86);
+			fg.graphics.lineTo(0, 84);
+			fg.graphics.lineTo(0, 2);
+			fg.graphics.endFill();
 			
-			var _vl7qp:Matrix = new Matrix();
-			var _4JLyl:Array = [0xcccccc,0xeeeeee, 0xffffff, 0xeeeeee];  
-			var _y8GFO:Array =[1,1,1,1];
-			var _FPFUE:Array =[0,70,150,255];
-			_vl7qp.createGradientBox(50, 98, 0,0,0);
-			_dEhFW.graphics.beginGradientFill(GradientType.LINEAR, _4JLyl, _y8GFO, _FPFUE, _vl7qp);
-			_dEhFW.graphics.moveTo(1, 0);
-			_dEhFW.graphics.curveTo(12,-3,25, -3);
-			_dEhFW.graphics.curveTo(37,-3,49, 0)
-			_dEhFW.graphics.lineTo(50, 2);
-			_dEhFW.graphics.lineTo(50, 84);
-			_dEhFW.graphics.lineTo(49, 86);
-			_dEhFW.graphics.curveTo(37, 89,25, 89);
-			_dEhFW.graphics.curveTo(12,89,1, 86);
-			_dEhFW.graphics.lineTo(0, 84);
-			_dEhFW.graphics.lineTo(0, 2);
-			_dEhFW.graphics.endFill();
+			var mat2:Matrix = new Matrix();
+			var colors2:Array = [0xcccccc,0xeeeeee, 0xffffff, 0xeeeeee];  
+			var alphas2:Array =[1,1,1,1];
+			var ratios2:Array =[0,70,150,255];
+			mat2.createGradientBox(50, 98, 0,0,0);
+			fg.graphics.beginGradientFill(GradientType.LINEAR, colors2, alphas2, ratios2, mat2);
+			fg.graphics.moveTo(1, 0);
+			fg.graphics.curveTo(12,-3,25, -3);
+			fg.graphics.curveTo(37,-3,49, 0)
+			fg.graphics.lineTo(50, 2);
+			fg.graphics.lineTo(50, 84);
+			fg.graphics.lineTo(49, 86);
+			fg.graphics.curveTo(37, 89,25, 89);
+			fg.graphics.curveTo(12,89,1, 86);
+			fg.graphics.lineTo(0, 84);
+			fg.graphics.lineTo(0, 2);
+			fg.graphics.endFill();
 			
-			this.addChild(_dEhFW);
-			
-			
-			var _d4s3g:Sprite = new Sprite();
-			_d4s3g.cacheAsBitmap = true;
-			
-			_d4s3g.graphics.beginFill(0x000000);
-			_d4s3g.graphics.moveTo(0, 7);
-			_d4s3g.graphics.curveTo(17, 7-2, 25, 7-2);
-			_d4s3g.graphics.curveTo(37, 7 - 2, 50, 7);
-			_d4s3g.graphics.lineTo(50, 10);
-			_d4s3g.graphics.curveTo(37, 10 - 2, 25, 10 - 2);
-			_d4s3g.graphics.curveTo(17, 10 - 2, 0, 10);
-			_d4s3g.graphics.endFill();
+			this.addChild(fg);
 			
 			
-			_d4s3g.graphics.beginFill(0x000000);
-			_d4s3g.graphics.moveTo(0, 7+70);
-			_d4s3g.graphics.curveTo(17, 7 +2+70, 25, 7+2+70);
-			_d4s3g.graphics.curveTo(37, 7 + 2+70, 50, 7+70);
-			_d4s3g.graphics.lineTo(50, 10+70);
-			_d4s3g.graphics.curveTo(37, 10 + 2 + 70, 25, 10 + 2 + 70);
-			_d4s3g.graphics.curveTo(17, 10 + 2+70, 0, 10+70);
-			_d4s3g.graphics.endFill();
+			var ovr:Sprite = new Sprite();
+			ovr.cacheAsBitmap = true;
 			
-			this.addChild(_d4s3g);
+			ovr.graphics.beginFill(0x000000);
+			ovr.graphics.moveTo(0, 7);
+			ovr.graphics.curveTo(17, 7-2, 25, 7-2);
+			ovr.graphics.curveTo(37, 7 - 2, 50, 7);
+			ovr.graphics.lineTo(50, 10);
+			ovr.graphics.curveTo(37, 10 - 2, 25, 10 - 2);
+			ovr.graphics.curveTo(17, 10 - 2, 0, 10);
+			ovr.graphics.endFill();
 			
-			_d4s3g.alpha = 0.1;
+			
+			ovr.graphics.beginFill(0x000000);
+			ovr.graphics.moveTo(0, 7+70);
+			ovr.graphics.curveTo(17, 7 +2+70, 25, 7+2+70);
+			ovr.graphics.curveTo(37, 7 + 2+70, 50, 7+70);
+			ovr.graphics.lineTo(50, 10+70);
+			ovr.graphics.curveTo(37, 10 + 2 + 70, 25, 10 + 2 + 70);
+			ovr.graphics.curveTo(17, 10 + 2+70, 0, 10+70);
+			ovr.graphics.endFill();
+			
+			this.addChild(ovr);
+			
+			ovr.alpha = 0.1;
 		}
 		
 	}

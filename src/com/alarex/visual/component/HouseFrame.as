@@ -4,26 +4,29 @@ package com.alarex.visual.component
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class HouseFrame extends Sprite 
 	{
 		
 		public function HouseFrame() 
 		{
-									
+			// 0x012f80
+			// 122x122
+			
 			this.cacheAsBitmap = true;
 			
-			var _XPjKW:Matrix = new Matrix();
-			var _nfF2X:Array =  [ 0x012f80, 0x012f80];
-			var _5tkK6:Array =[1,0];
-			var _mej46:Array =[0,255];
-			_XPjKW.createGradientBox(122+230+122, 122+170, Math.PI/2, 0, 0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _nfF2X, _5tkK6, _mej46, _XPjKW);
+			var mat:Matrix = new Matrix();
+			var colors:Array =  [ 0x012f80, 0x012f80];
+			var alphas:Array =[1,0];
+			var ratios:Array =[0,255];
+			mat.createGradientBox(122+230+122, 122+170, Math.PI/2, 0, 0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, mat);
 			
-						this.graphics.moveTo(122, 0);
+			//this.graphics.beginFill(0x012f80);
+			this.graphics.moveTo(122, 0);
 			this.graphics.lineTo(122 + 230, 0);
 			this.graphics.lineTo(122 + 230 + 122, 122);
 			this.graphics.lineTo(122 + 230 + 122, 122 + 170);
@@ -38,12 +41,12 @@ package com.alarex.visual.component
 			this.graphics.endFill();
 			
 			
-			var _pJneF:Matrix = new Matrix();
-			var _vfV91:Array = [0xffffff, 0xffffff];
-			var _Eexws:Array =[1,0];
-			var _Cdqak:Array =[0,255];
-			_pJneF.createGradientBox(122+230+122, 122+170, Math.PI/2, 0, 0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _vfV91, _Eexws, _Cdqak, _pJneF);
+			var mat2:Matrix = new Matrix();
+			var colors2:Array = [0xffffff, 0xffffff];
+			var alphas2:Array =[1,0];
+			var ratios2:Array =[0,255];
+			mat2.createGradientBox(122+230+122, 122+170, Math.PI/2, 0, 0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors2, alphas2, ratios2, mat2);
 			
 			this.graphics.moveTo(122 + 5, 0 + 8);
 			this.graphics.lineTo(122 + 230 - 5, 0 + 8);
@@ -60,12 +63,12 @@ package com.alarex.visual.component
 			this.graphics.endFill();
 			
 			
-			var _kI5bA:Matrix = new Matrix();
-			var _z6pbQ:Array = [0xffffff, 0xffffff];
-			var _70Jrz:Array =[1,0];
-			var _XLRJn:Array =[0,255];
-			_kI5bA.createGradientBox(122+230+122, 122+170,-Math.PI/8, 0, 0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _z6pbQ, _70Jrz, _XLRJn, _kI5bA);
+			var mat9:Matrix = new Matrix();
+			var colors9:Array = [0xffffff, 0xffffff];
+			var alphas9:Array =[1,0];
+			var ratios9:Array =[0,255];
+			mat9.createGradientBox(122+230+122, 122+170,-Math.PI/8, 0, 0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors9, alphas9, ratios9, mat9);
 			
 			this.graphics.moveTo(122 + 8 + 8 + 8 + 5, 8 + 8 + 8);
 			this.graphics.lineTo(122 + 230 - 8 - 8 , 8 + 8 + 8);
@@ -73,12 +76,12 @@ package com.alarex.visual.component
 			this.graphics.lineTo(122 + 122 - 8 + 3 + 3, 122 + 8);
 			this.graphics.endFill();
 			
-			var _1Mrfl:Matrix = new Matrix();
-			var _sy2ok:Array = [0xffffff, 0xffffff];
-			var _772H7:Array =[0.3,0];
-			var _BfaRt:Array =[0,180];
-			_1Mrfl.createGradientBox(122+230+122, 122+100, Math.PI/2, 0, 0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _sy2ok, _772H7, _BfaRt, _1Mrfl);	
+			var mat3:Matrix = new Matrix();
+			var colors3:Array = [0xffffff, 0xffffff];
+			var alphas3:Array =[0.3,0];
+			var ratios3:Array =[0,180];
+			mat3.createGradientBox(122+230+122, 122+100, Math.PI/2, 0, 0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors3, alphas3, ratios3, mat3);	
 			this.graphics.moveTo(122 + 8+8, 8 + 8 + 8);
 			this.graphics.lineTo(122 + 122 - 8  - 8 + 5, 8  + 122 + 5);
 			this.graphics.lineTo(122 + 122 - 8  - 8 + 5, 8 + 8 + 8 + 122 + 122);
@@ -88,12 +91,12 @@ package com.alarex.visual.component
 			this.graphics.endFill();
 			
 				
-			var _1GKvr:Matrix = new Matrix();
-			var _saYrD:Array = [0xffffff, 0xffffff];
-			var _umulW:Array =[0.4,0];
-			var _oYApc:Array =[0,200];
-			_1GKvr.createGradientBox(122+230+122, 122+100, Math.PI/7, 0, 0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _saYrD, _umulW, _oYApc, _1GKvr);	
+			var mat4:Matrix = new Matrix();
+			var colors4:Array = [0xffffff, 0xffffff];
+			var alphas4:Array =[0.4,0];
+			var ratios4:Array =[0,200];
+			mat4.createGradientBox(122+230+122, 122+100, Math.PI/7, 0, 0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors4, alphas4, ratios4, mat4);	
 			this.graphics.drawRect(122 + 122, 122+8+8+2, 230 - 8 - 8 - 8 -3 , 122);
 			this.graphics.endFill();
 		}

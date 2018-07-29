@@ -6,10 +6,10 @@ package com.alarex.visual.component
 	import flash.display.GradientType;
 	
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class GaugeScaleGradient extends Sprite 
 	{
 		
@@ -17,62 +17,63 @@ package com.alarex.visual.component
 		{
 			this.cacheAsBitmap = true;
 			
-			var _doQ3T:Sprite = new Sprite();
-			_doQ3T.graphics.beginFill(0x000000);
-			_doQ3T.graphics.drawCircle(xp, yp, rd+fr);
-			_doQ3T.graphics.endFill();
-			_doQ3T.blendMode = BlendMode.LAYER;
-			_doQ3T.cacheAsBitmap = true;
-			this.addChild(_doQ3T);
+			var bg:Sprite = new Sprite();
+			bg.graphics.beginFill(0x000000);
+			bg.graphics.drawCircle(xp, yp, rd+fr);
+			bg.graphics.endFill();
+			bg.blendMode = BlendMode.LAYER;
+			bg.cacheAsBitmap = true;
+			this.addChild(bg);
 			
-			var _S01hj:Sprite = new Sprite();
-			_S01hj.graphics.beginFill(0xFFFFFF);
-			_S01hj.graphics.drawCircle(xp, yp, rd - thk - fr);
-			_S01hj.graphics.endFill();
-			_S01hj.graphics.beginFill(0xFFFFFF);
-			_S01hj.graphics.drawRect(xp - (rd+fr), yp+fr, (rd+fr )* 2, (rd+fr));
-			_S01hj.graphics.endFill();
-			_S01hj.blendMode = BlendMode.ERASE;
-			_S01hj.cacheAsBitmap = true;
-			_doQ3T.addChild(_S01hj);
-			
-			
+			var bg2:Sprite = new Sprite();
+			bg2.graphics.beginFill(0xFFFFFF);
+			bg2.graphics.drawCircle(xp, yp, rd - thk - fr);
+			bg2.graphics.endFill();
+			bg2.graphics.beginFill(0xFFFFFF);
+			bg2.graphics.drawRect(xp - (rd+fr), yp+fr, (rd+fr )* 2, (rd+fr));
+			bg2.graphics.endFill();
+			bg2.blendMode = BlendMode.ERASE;
+			bg2.cacheAsBitmap = true;
+			bg.addChild(bg2);
 			
 			
-			var _W9QtW:Sprite = new Sprite();
 			
-			var _uAMUg:Matrix = new Matrix();
-			var _Ocs6C:Array = new Array();
-			var _axUNh:Array = new Array();
 			
-			for (var _R0fKK:int = 0; _R0fKK < colors2.length; _R0fKK++) {
-				_Ocs6C.push(1);
-				_axUNh.push((255.0 / colors2.length) * _R0fKK);
+			var sc:Sprite = new Sprite();
+			
+			var mat2:Matrix = new Matrix();
+			var alphas2:Array = new Array();
+			var ratios2:Array = new Array();
+			
+			for (var i:int = 0; i < colors2.length; i++) {
+				alphas2.push(1);
+				ratios2.push((255.0 / colors2.length) * i);
 			}
 			
-			_uAMUg.createGradientBox(rd * 2, rd,0,rd/2,0);
-			_W9QtW.graphics.beginGradientFill(GradientType.LINEAR,colors2,_Ocs6C,_axUNh,_uAMUg);
-			_W9QtW.graphics.drawCircle(xp, yp, rd);
-			_W9QtW.graphics.endFill();
-			_W9QtW.blendMode = BlendMode.LAYER;
-			_W9QtW.cacheAsBitmap = true;
-			this.addChild(_W9QtW);
+			mat2.createGradientBox(rd * 2, rd,0,rd/2,0);
+			sc.graphics.beginGradientFill(GradientType.LINEAR,colors2,alphas2,ratios2,mat2);
+			sc.graphics.drawCircle(xp, yp, rd);
+			sc.graphics.endFill();
+			sc.blendMode = BlendMode.LAYER;
+			sc.cacheAsBitmap = true;
+			this.addChild(sc);
 			
-			var _bq0xu:Sprite = new Sprite();
-			_bq0xu.graphics.beginFill(0x00FF00);
-			_bq0xu.graphics.drawCircle(xp, yp, rd - thk);
-			_bq0xu.graphics.endFill();
-			_bq0xu.graphics.beginFill(0x00ff00);
-			_bq0xu.graphics.drawRect(xp - rd, yp, rd * 2, rd);
-			_bq0xu.graphics.endFill();
-			_bq0xu.blendMode = BlendMode.ERASE;
-			_bq0xu.cacheAsBitmap = true;
-			_W9QtW.addChild(_bq0xu);
+			var msk:Sprite = new Sprite();
+			msk.graphics.beginFill(0x00FF00);
+			msk.graphics.drawCircle(xp, yp, rd - thk);
+			msk.graphics.endFill();
+			msk.graphics.beginFill(0x00ff00);
+			msk.graphics.drawRect(xp - rd, yp, rd * 2, rd);
+			msk.graphics.endFill();
+			msk.blendMode = BlendMode.ERASE;
+			msk.cacheAsBitmap = true;
+			sc.addChild(msk);
 			
 	
 			
 			
-					}
+			//sc.mask = msk;
+		}
 		
 	}
 

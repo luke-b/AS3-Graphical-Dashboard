@@ -6,130 +6,140 @@ package com.alarex.visual.component
 	import flash.display.GradientType;
 	import com.greensock.TweenLite;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class SolarPanelSymbol extends Sprite 
 	{
 		
-		private var _riDn7:Sprite = new Sprite();  		
+		private var fls:Sprite = new Sprite();  //flash
+		
 		public function SolarPanelSymbol(del:Number) 
 		{
-			var _2DIOw:Number = -12;
+			var corr:Number = -12;
 			
 			this.cacheAsBitmap = true;
 			
-			var _O5W7b:BlurFilter = new BlurFilter(10, 10);
+			var bf:BlurFilter = new BlurFilter(10, 10);
 			
-			var _asFRR:Sprite = new Sprite();
+			var sh:Sprite = new Sprite();
 			
-					
-			_asFRR.graphics.beginFill(0x000000);
-			_asFRR.graphics.moveTo(4, 2);
-			_asFRR.graphics.lineTo(50, 2);
-			_asFRR.graphics.lineTo(49 + 88 + _2DIOw, 88);
-			_asFRR.graphics.lineTo(90 + _2DIOw, 88);
-			_asFRR.graphics.lineTo(4, 2);
-			_asFRR.graphics.endFill();
-			_asFRR.y += 7;
-			_asFRR.filters = [_O5W7b];
-			this.addChild(_asFRR);
+		//	sh.cacheAsBitmap = true;
+			
+			sh.graphics.beginFill(0x000000);
+			sh.graphics.moveTo(4, 2);
+			sh.graphics.lineTo(50, 2);
+			sh.graphics.lineTo(49 + 88 + corr, 88);
+			sh.graphics.lineTo(90 + corr, 88);
+			sh.graphics.lineTo(4, 2);
+			sh.graphics.endFill();
+			sh.y += 7;
+			sh.filters = [bf];
+			this.addChild(sh);
 			
 			
-			var _2zYF4:Sprite = new Sprite();
+			var bg:Sprite = new Sprite();
 			
-			_2zYF4.graphics.beginFill(0x002e80);
-			_2zYF4.graphics.moveTo(0, 0);
-			_2zYF4.graphics.lineTo(52, 0);
-			_2zYF4.graphics.lineTo(52 + 88 + _2DIOw, 88);
-			_2zYF4.graphics.lineTo(52 + 88 + _2DIOw, 88 + 6);
-			_2zYF4.graphics.lineTo(88 + _2DIOw, 88 + 6);
-			_2zYF4.graphics.lineTo(0, 6);
-			_2zYF4.graphics.endFill();
+			bg.graphics.beginFill(0x002e80);
+			bg.graphics.moveTo(0, 0);
+			bg.graphics.lineTo(52, 0);
+			bg.graphics.lineTo(52 + 88 + corr, 88);
+			bg.graphics.lineTo(52 + 88 + corr, 88 + 6);
+			bg.graphics.lineTo(88 + corr, 88 + 6);
+			bg.graphics.lineTo(0, 6);
+			bg.graphics.endFill();
 			
-					
-			this.addChild(_2zYF4);
+		//	bg.cacheAsBitmap = true;
 			
-			var _2gHRG:Sprite = new Sprite();  			
-					
-			var _8nkVI:Matrix = new Matrix();
-			var _8KOAB:Array =[0x00bef9,0x002e80];  
-			var _8s5FT:Array =[1,1];
-			var _1dfkG:Array =[0,255];
-			_8nkVI.createGradientBox(88+49, 88+49,Math.PI/4,0,0);
-			_2gHRG.graphics.beginGradientFill(GradientType.LINEAR, _8KOAB, _8s5FT, _1dfkG, _8nkVI);
+			this.addChild(bg);
 			
-						_2gHRG.graphics.moveTo(4, 2);
-			_2gHRG.graphics.lineTo(50, 2);
-			_2gHRG.graphics.lineTo(49 + 88 + _2DIOw, 88);
-			_2gHRG.graphics.lineTo(90 + _2DIOw, 88);
-			_2gHRG.graphics.lineTo(4, 2);
-			_2gHRG.graphics.endFill();
+			var g:Sprite = new Sprite();  //sklo
 			
-			this.addChild(_2gHRG);
+		//	g.cacheAsBitmap = true;
+			
+			var mat:Matrix = new Matrix();
+			var colors:Array =[0x00bef9,0x002e80];  
+			var alphas:Array =[1,1];
+			var ratios:Array =[0,255];
+			mat.createGradientBox(88+49, 88+49,Math.PI/4,0,0);
+			g.graphics.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, mat);
+			
+			//g.graphics.beginFill(0x00bef9);
+			g.graphics.moveTo(4, 2);
+			g.graphics.lineTo(50, 2);
+			g.graphics.lineTo(49 + 88 + corr, 88);
+			g.graphics.lineTo(90 + corr, 88);
+			g.graphics.lineTo(4, 2);
+			g.graphics.endFill();
+			
+			this.addChild(g);
 			
 			
 		
 			
-			var _UdgcB:Matrix = new Matrix();
-			var _fd9mX:Array =[0xffffff,0xffffff,0xffffff];  
-			var _ukpPY:Array =[0,1,0];
-			var _T02eg:Array =[0,150,255];
-			_UdgcB.createGradientBox(80, 288, 0,0,0);
-			_riDn7.graphics.beginGradientFill(GradientType.LINEAR, _fd9mX, _ukpPY, _T02eg, _UdgcB);
-			_riDn7.graphics.drawRect(0, -100, 80, 288);
-			_riDn7.graphics.endFill();
-			_riDn7.rotation = 25;
-			_2gHRG.addChild(_riDn7);
+			var mat5:Matrix = new Matrix();
+			var colors5:Array =[0xffffff,0xffffff,0xffffff];  
+			var alphas5:Array =[0,1,0];
+			var ratios5:Array =[0,150,255];
+			mat5.createGradientBox(80, 288, 0,0,0);
+			fls.graphics.beginGradientFill(GradientType.LINEAR, colors5, alphas5, ratios5, mat5);
+			fls.graphics.drawRect(0, -100, 80, 288);
+			fls.graphics.endFill();
+			fls.rotation = 25;
+			g.addChild(fls);
 			
-					
-			_riDn7.x -= 100;
+		//	fls.cacheAsBitmap = true;
+			
+			fls.x -= 100;
 			
 			
-			var _jbkyl:Sprite = new Sprite();  			
-			_jbkyl.graphics.beginFill(0x00bef9);
-			_jbkyl.graphics.moveTo(4, 2);
-			_jbkyl.graphics.lineTo(50, 2);
-			_jbkyl.graphics.lineTo(49 + 88 + _2DIOw, 88);
-			_jbkyl.graphics.lineTo(90 + _2DIOw, 88);
-			_jbkyl.graphics.lineTo(4, 2);
-			_jbkyl.graphics.endFill();
+			var gm:Sprite = new Sprite();  //maska
 			
-					
-			this.addChild(_jbkyl);
+			gm.graphics.beginFill(0x00bef9);
+			gm.graphics.moveTo(4, 2);
+			gm.graphics.lineTo(50, 2);
+			gm.graphics.lineTo(49 + 88 + corr, 88);
+			gm.graphics.lineTo(90 + corr, 88);
+			gm.graphics.lineTo(4, 2);
+			gm.graphics.endFill();
 			
-			_2gHRG.mask = _jbkyl;
+		//	gm.cacheAsBitmap = true;
+			
+			this.addChild(gm);
+			
+			g.mask = gm;
 			
 		
 			
-			var _cgqJJ:Sprite = new Sprite();
+			var ov:Sprite = new Sprite();
 			
-			for (var _Pb5jr:int = 1; _Pb5jr < 6; _Pb5jr++) {
+			for (var i:int = 1; i < 6; i++) {
 			
-			_2gHRG.graphics.beginFill(0x002e80);
-			_2gHRG.graphics.moveTo(4+8*_Pb5jr-2, 2);
-			_2gHRG.graphics.lineTo(6+8*_Pb5jr-2, 2);
-			_2gHRG.graphics.lineTo(4 + 88+8*_Pb5jr-2 + _2DIOw, 88);
-			_2gHRG.graphics.lineTo(2 + 88+8*_Pb5jr-2 + _2DIOw, 88);
-			_2gHRG.graphics.lineTo(4+8*_Pb5jr-2, 2);
-			_2gHRG.graphics.endFill();
+			g.graphics.beginFill(0x002e80);
+			g.graphics.moveTo(4+8*i-2, 2);
+			g.graphics.lineTo(6+8*i-2, 2);
+			g.graphics.lineTo(4 + 88+8*i-2 + corr, 88);
+			g.graphics.lineTo(2 + 88+8*i-2 + corr, 88);
+			g.graphics.lineTo(4+8*i-2, 2);
+			g.graphics.endFill();
 			
 				
 			}
 		
-					_cgqJJ.cacheAsBitmap = true;
+		//	g.cacheAsBitmap = true;
+			ov.cacheAsBitmap = true;
 			
-			this.addChild(_cgqJJ);
+			this.addChild(ov);
 			
 			
-			TweenLite.to(_riDn7,1, { x:300, onComplete:_XW9Yw, delay:del } );
+			TweenLite.to(fls,1, { x:300, onComplete:newFlash, delay:del } );
 		}
 		
-		public function _XW9Yw():void {
-			_riDn7.x = -100;
+		public function newFlash():void {
+			fls.x = -100;
 			
-			TweenLite.to(_riDn7,1, { x:300, onComplete:_XW9Yw, delay:5 } );
+			TweenLite.to(fls,1, { x:300, onComplete:newFlash, delay:5 } );
 		}
 	}
 

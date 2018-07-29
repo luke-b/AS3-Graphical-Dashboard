@@ -5,41 +5,41 @@ package com.alarex.visual.liveComponents
 	import com.alarex.visual.component.WeatherPanel;
 	import flash.display.Sprite;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class WeatherInfoPanel extends Sprite 
 	{
 		
-		private var _4zdHd:WeatherPanel;
-		private var _JsOTy:SunSymbol;
-		private var _yAMLR:ThermometerSymbol;
+		private var panel:WeatherPanel;
+		private var sun:SunSymbol;
+		private var meterSymbol:ThermometerSymbol;
 		
 		public function WeatherInfoPanel() 
 		{
 			this.cacheAsBitmap = true;
 			
-			_4zdHd = new WeatherPanel();
-			this.addChild(_4zdHd);
+			panel = new WeatherPanel();
+			this.addChild(panel);
 			
-			_JsOTy = new SunSymbol(60, 15);
-			this.addChild(_JsOTy);
-			_JsOTy.x = 180;
-			_JsOTy.y = 60;
+			sun = new SunSymbol(60, 15);
+			this.addChild(sun);
+			sun.x = 180;
+			sun.y = 60;
 			
-			_yAMLR = new ThermometerSymbol();
-			this.addChild(_yAMLR);
-			_yAMLR.scaleX = 0.8;
-			_yAMLR.scaleY = 0.8;
-			_yAMLR.x = 270;
-			_yAMLR.y = 35;
+			meterSymbol = new ThermometerSymbol();
+			this.addChild(meterSymbol);
+			meterSymbol.scaleX = 0.8;
+			meterSymbol.scaleY = 0.8;
+			meterSymbol.x = 270;
+			meterSymbol.y = 35;
 			
 		}
 		
 		
-		public function _MvCNn(sf:Number):void {
-			_JsOTy._MvCNn(sf);
+		public function setShineFactor(sf:Number):void {
+			sun.setShineFactor(sf);
 		}
 		
 	}

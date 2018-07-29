@@ -3,46 +3,47 @@ package com.alarex.visual.component
 	import flash.display.Sprite;
 	import com.greensock.TweenLite;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class TempInfoBubble extends Sprite 
 	{
 		
 		
-		private var _F1jml:TempLabel;
-		private var _azNYJ:TempLabel;
-		private var _XQpw2:String;
+		private var tLabel:TempLabel;
+		private var oldLabel:TempLabel;
+		private var label:String;
 		
 		public function TempInfoBubble(l:String) 
 		{
 			this.cacheAsBitmap = true;
 			
-			_LebFg(l);
+			changeString(l);
 		}
 		
-		public function _LebFg(l:String):void {
+		public function changeString(l:String):void {
 			
-			if (l != this._XQpw2) {
+			if (l != this.label) {
 				
-				this._XQpw2 = l;
+				this.label = l;
 				
-				if (this._F1jml != null) {
-					this._azNYJ = this._F1jml;
+				if (this.tLabel != null) {
+					this.oldLabel = this.tLabel;
 					
-					this.removeChild(this._F1jml);
-								}
+					this.removeChild(this.tLabel);
+				//	TweenLite.to(oldLabel, 0.5, { alpha:0.0, y: -20, onComplere:removeOld } );
+				}
 				
-				this._F1jml = new TempLabel(l, 25);
-				this.addChild(_F1jml);
+				this.tLabel = new TempLabel(l, 25);
+				this.addChild(tLabel);
 			}
 			
 		}
 		
-		public function _hpUCW():void {
-			if (this._azNYJ != null) {
-				this.removeChild(this._azNYJ);
+		public function removeOld():void {
+			if (this.oldLabel != null) {
+				this.removeChild(this.oldLabel);
 			}
 		}
 		

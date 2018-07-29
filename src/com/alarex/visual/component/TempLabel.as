@@ -6,60 +6,60 @@ package com.alarex.visual.component
 	import flash.display.Sprite;
 	import com.alarex.visual.component.SimplePanel;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class TempLabel extends Sprite
 	{
 		
-		[Embed(source='\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x6c\x69\x62\x2f\x76\x6f\x64\x61\x66\x6f\x6e\x65\x2e\x74\x74\x66', fontFamily="\x76\x6f\x64\x61\x46\x6f\x6e\x74")]
-		public var _GElsA:Class;
+		[Embed(source='../../../../../lib/vodafone.ttf', fontFamily="vodaFont")]
+		public var VodaFont:Class;
 		
-		private var _ohnh4:String;
+		private var lab:String;
 		
 		public function TempLabel(l:String,size:Number) 
 		{
-			this._ohnh4 = l;
+			this.lab = l;
 			
 			this.cacheAsBitmap = true;
 			
-			var _Xdv8S:Number = 22;
+			var xoff:Number = 22;
 			
-			var _cGWPV:TextField = new TextField();
-			_cGWPV.selectable = false;
+			var text:TextField = new TextField();
+			text.selectable = false;
 			
-			_cGWPV.antiAliasType = AntiAliasType.ADVANCED;
-			_cGWPV.embedFonts = true;
+			text.antiAliasType = AntiAliasType.ADVANCED;
+			text.embedFonts = true;
 			
-			_cGWPV._cGWPV = _ohnh4;
-			_cGWPV.alpha = 1;
-			_cGWPV.x = _Xdv8S+3;
-			_cGWPV.y = 2;
-			_cGWPV.height = size * 2;
+			text.text = lab;
+			text.alpha = 1;
+			text.x = xoff+3;
+			text.y = 2;
+			text.height = size * 2;
 			
-			_cGWPV.cacheAsBitmap = true;
+			text.cacheAsBitmap = true;
 			
-			var _KrepD:TextFormat = new TextFormat();
-			_KrepD.size = size;
-			_KrepD.font = "\x76\x6f\x64\x61\x46\x6f\x6e\x74";
-			_KrepD.color = 0x000000;
+			var format:TextFormat = new TextFormat();
+			format.size = size;
+			format.font = "vodaFont";
+			format.color = 0x000000;
 			
-			_cGWPV.setTextFormat(_KrepD);
-			_cGWPV.width = _cGWPV.textWidth + size;
-			_cGWPV.height = _cGWPV.textHeight;
+			text.setTextFormat(format);
+			text.width = text.textWidth + size;
+			text.height = text.textHeight;
 			
-			var _aJrWi:SimplePanel = new SimplePanel(_cGWPV.textWidth+size/2+_Xdv8S, _cGWPV.textHeight+size/3);
-			this.addChild(_aJrWi);
+			var sp:SimplePanel = new SimplePanel(text.textWidth+size/2+xoff, text.textHeight+size/3);
+			this.addChild(sp);
 			
-			var _zoTwC:ThermometerSymbol = new ThermometerSymbol();
-			this.addChild(_zoTwC);
-			_zoTwC.x = 10;
-			_zoTwC.y = -5;
-			_zoTwC.scaleX = 0.6;
-			_zoTwC.scaleY = 0.6;
+			var tm:ThermometerSymbol = new ThermometerSymbol();
+			this.addChild(tm);
+			tm.x = 10;
+			tm.y = -5;
+			tm.scaleX = 0.6;
+			tm.scaleY = 0.6;
 			
-			this.addChild(_cGWPV);
+			this.addChild(text);
 
 		}
 		

@@ -1,6 +1,7 @@
 package com.alarex.visual
 {
 	
+	import com.alarex.visual.component.GlassLabel;
 	import com.alarex.visual.component.GlassPanel;
 	import com.alarex.visual.component.HouseFrame;
 	import com.alarex.visual.component.ChartColumn1;
@@ -15,6 +16,7 @@ package com.alarex.visual
 	import com.alarex.visual.liveComponents.SumGauge;
 	import com.alarex.visual.liveComponents.WeatherInfoPanel;
 	import com.greensock.core.SimpleTimeline;
+	import flash.display.SimpleButton;
 	import flash.display.SpreadMethod;
 	import flash.display.Sprite;
 	import flash.events.ContextMenuEvent;
@@ -44,341 +46,558 @@ package com.alarex.visual
 	import com.alarex.visual.liveComponents.SolarSystem;
 	import com.alarex.visual.component.GlassWindow;
 	import flash.system.Capabilities;
+	import com.alarex.visual.liveComponents.SimpleButton;
+	import flash.geom.Rectangle;
+	import com.greensock.easing.Quint;
 	
-	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class Main extends Sprite
 	{
-		private const _UiLKy:String = "\x41\x6c\x61\x72\x65\x78\x20\x53\x6f\x6c\x61\x72\x20\x4d\x6f\x6e\x69\x74\x6f\x72";
-		private var _EXVib:Number = 800;
-		private var _hiNDj:Number = 600;
-		private const _5PBwd:Number = 0;
-		private const _ZNYZh:Number = 0;
-		private const _xARx4:Boolean = false;
 		
-		private const _oPMis:Number = 0;
-		private const _rxbhu:Number = 2;
+		private const DEMO_CONFIG:Boolean = true;
 		
-		private var _wGN0w:Timer = new Timer(4000,0);
-		private var _L88fJ:PowerGauge = new PowerGauge(_oPMis,_rxbhu);
-		private var _yLAv3:SumGauge = new SumGauge();
-		private var _i1nm4:SliderButton = new SliderButton();
-		private var _peUPE:WeatherInfoPanel = new WeatherInfoPanel();
-		private var _9wbgv:SolarSystem = new SolarSystem();
+		private const WINDOW_TITLE:String = "Alarex Solar Monitor";  //Alarex Solar Monitor
+		private const HOUSE_NAME:String = "Smart Home";
+		private var XRES:Number = 800;
+		private var YRES:Number = 600;
+		private const BLURX:Number = 0;
+		private const BLURY:Number = 0;
+		private const BLUR:Boolean = false;
 		
-		private var _N1oJy:Boolean = false;
+		private const ENGLISH:Boolean = true;
 		
+		private const KW_MIN:Number = 0;
+		private const KW_MAX:Number = 2;
 		
-		private var _sD9kD:int = 0;
+		private var timer:Timer = new Timer(1000,0);
+		private var powerGauge1:PowerGauge = new PowerGauge(KW_MIN,KW_MAX);
+		private var sumGauge1:SumGauge = new SumGauge(ENGLISH);
+		private var slide:SliderButton = new SliderButton();
+		private var weather:WeatherInfoPanel = new WeatherInfoPanel();
+		private var solarSystem:SolarSystem = new SolarSystem();
 		
-		private var _kHs52:Number = 0;
+		private var chartHolder:Sprite;
 		
-		private var _IaODu:PanelImprint;
-		private var _ZwII6:PanelImprint;
-		private var _UrPnV:GlassPanel;
+		private var background:Sprite = new Sprite();
 		
-		[Embed("\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x6c\x69\x62\x2f\x6c\x61\x6e\x64\x73\x63\x61\x70\x65\x2e\x6a\x70\x67")]
-		private const _YYcEc:Class;
+		private var isOnline:Boolean = false;
 		
-		[Embed("\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x6c\x69\x62\x2f\x66\x61\x63\x74\x6f\x72\x2d\x6c\x6f\x67\x6f\x2e\x70\x6e\x67")]
-		private const _ISWzl:Class;
+		private var gaugeZoomed:Boolean = false;
+		private var gaugeZoomed2:Boolean = false;
+		
+		private var chartSet:Boolean = false;
+		
+		private var cnt:int = 0;
+		
+		private var kwSum:Number = 0;
+		
+		private var leftImprint:PanelImprint;
+		private var rightImprint:PanelImprint;
+		private var gp:GlassPanel;
+		
+		[Embed("../../../../lib/landscape.jpg")]
+		private const BackgroundImage:Class;
+		
+		[Embed("../../../../lib/factor-logo.png")]
+		private const FactorLogo:Class;
  
-		[Embed("\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x6c\x69\x62\x2f\x61\x6c\x61\x72\x65\x78\x2d\x6c\x6f\x67\x6f\x2e\x70\x6e\x67")]
-		private const _dY6ii:Class;
+		[Embed("../../../../lib/alarex-logo.png")]
+		private const AlarexLogo:Class;
 		
-		private var _VVxXd:LineChart1;
+		private var lineChart:LineChart1;
 
-						
+		// C:\Android\as3-obf\obfuscate.bat   
+		// C:\Android\as3-obf\makedirs.bat
+		// C:\Android\as3-obf\runobf.bat
+
 		
 		public function Main():void 
 		{
-			if (stage) _yeGtm();
-			else addEventListener(Event.ADDED_TO_STAGE, _yeGtm);
+			if (stage) init();
+			else addEventListener(Event.ADDED_TO_STAGE, init);
 			
 		}
 		
-		public function _Y2smD(e:Event = null):void {
+		public function initComponents(sizeCode:int):void {
 			
-								
-			if (stage.displayState == StageDisplayState.FULL_SCREEN) {
+			//sampleInstances();
 				
+			if (sizeCode == 1) {
 				
+				XRES = Capabilities.screenResolutionX;
+				YRES = Capabilities.screenResolutionY;
 				
-				_EXVib = Capabilities.screenResolutionX;
-				_hiNDj = Capabilities.screenResolutionY;
-				
+				//XRES = 400;
+				//YRES = 600;
+							
 			} else {
 				
-				_EXVib = 800;
-				_hiNDj = 600;
+				XRES = 800;
+				YRES = 600;
+				
 				
 			}
 				
-				
-			var _Lzvnj:Sprite = new Sprite();
-			this.addChild(_Lzvnj);
-			
-			_Lzvnj.graphics.beginFill(0x000000);
-			_Lzvnj.graphics.drawRect(0, 0, _EXVib, _hiNDj);
-			_Lzvnj.graphics.endFill();
-						
-							
-			
-			
-			var _nu3BS:DisplayObject = new _YYcEc();
-			_Lzvnj.addChild(_nu3BS);
-			
-			if (_xARx4) {
-				var _GBkCs:BlurFilter = new BlurFilter(_5PBwd, _ZNYZh);
-				_nu3BS.filters = [_GBkCs];
+			while (numChildren > 0) {
+					removeChildAt(0);
 			}
 			
-			var _WHUrT:Sprite = new Sprite();
-			_WHUrT.graphics.beginFill(0x000000);
-			_WHUrT.graphics.drawRect(0, 0, _EXVib, _hiNDj);
-			_WHUrT.graphics.endFill();
-			_Lzvnj.addChild(_WHUrT);
-			
-			_Lzvnj.mask = _WHUrT;
-			
-			
-			var _cHKMe:ShinyPanel = new ShinyPanel(_EXVib, 60, true);
-			_Lzvnj.addChild(_cHKMe);
-			
-			var _J2K6p:CurvyPanel = new CurvyPanel(_EXVib, 125);
-			_Lzvnj.addChild(_J2K6p);
-			_J2K6p.y = _hiNDj - 125;
-			
-			
-			var _Ig4gK:SmallLabel = new SmallLabel(_UiLKy,30,false);
-			_Lzvnj.addChild(_Ig4gK);
-			_Ig4gK.x = _EXVib/2-_Ig4gK.getXres()/2;
-			_Ig4gK.y = 8;
-			
-			
-			
-			_Lzvnj.addChild(_L88fJ);
-			_L88fJ.x = _EXVib/2-195;
-			_L88fJ.y = _hiNDj-210;
-			
-			_Lzvnj.addChild(_yLAv3);
-			_yLAv3.x = _EXVib / 2 + 25;
-			_yLAv3.y = _hiNDj - 210;
-			
-			
-			
-									
-		
-			_Lzvnj.addChild(_peUPE);
-			_peUPE.x = _EXVib - 340;
-			_peUPE.y = 95;
-			
-			
-			_Lzvnj.addChild(_9wbgv);
-			_9wbgv.x = 172;
-			_9wbgv.y = 170;
-			
-			
-		
-			_Lzvnj.addChild(_i1nm4);
-			_i1nm4.x = 15;
-			_i1nm4.y = 12;
-			
-											
-									
-		
-			var _IMwAQ:DisplayObject = new _dY6ii();
-			var _hjytS:Sprite = new Sprite();
-			_hjytS.addChild(_IMwAQ);
-		
-			_IaODu = new PanelImprint(_hjytS);
-			_Lzvnj.addChild(_IaODu);
-			_IaODu.x = 4;
-			_IaODu.y = _hiNDj - 95;
-			
-			var _eRT5Q:DisplayObject = new _ISWzl();
-			var _qy6Jq:Sprite = new Sprite();
-			_qy6Jq.addChild(_eRT5Q);
-			_qy6Jq.scaleX *= -1;
-			_qy6Jq.x = 146;
-			
-		
-			
-			_ZwII6 = new PanelImprint(_qy6Jq);
-			_Lzvnj.addChild(_ZwII6);
-			_ZwII6.x = _EXVib-4;
-			_ZwII6.y = _hiNDj - 95;
-			_ZwII6.scaleX *= -1;
-			
-			
-										
-		
-						
-							
-							
-						
-		}
-		
-		private function _yeGtm(e:Event = null):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, _yeGtm);
-						TweenPlugin.activate([BlurFilterPlugin]);
-			
-			addEventListener(Event.RESIZE, _Y2smD);
-					
-			this.cacheAsBitmap = true;
-			
-			_Y2smD();
-		
-		
-			
-			Security.allowDomain("\x2a");
-			Security.allowInsecureDomain("\x2a");
-			
-																					
-			ExternalInterface.addCallback("\x5f\x61\x78\x5f\x72\x75\x6e\x44\x65\x6d\x6f", _HjCWl);
-			ExternalInterface.addCallback("\x5f\x61\x78\x5f\x73\x74\x6f\x70\x44\x65\x6d\x6f", _WjxYi);
-			ExternalInterface.addCallback("\x5f\x61\x78\x5f\x73\x65\x74\x43\x6f\x6c\x64\x54\x65\x6d\x70", _i1A8t);
-			ExternalInterface.addCallback("\x5f\x61\x78\x5f\x73\x65\x74\x48\x6f\x74\x54\x65\x6d\x70", _Dcuu4);
-			ExternalInterface.addCallback("\x5f\x61\x78\x5f\x73\x65\x74\x56\x61\x6c\x75\x65\x4b\x57", _x8bLw);
-			ExternalInterface.addCallback("\x5f\x61\x78\x5f\x73\x65\x74\x4b\x57\x48\x53\x75\x6d", _ZF1ST);
-			
-			_SsidT();
-			
-					
-			
-			_wGN0w.addEventListener(TimerEvent.TIMER, _byyP9);
-		
+		//	XRES = stage.width;
+		//	YRES = stage.height;
 
+
+			this.addChild(background);
+			
+			background.graphics.beginFill(0x000000);
+			background.graphics.drawRect(0, 0, XRES, YRES);
+			background.graphics.endFill();
+						
+		//	s = -XRES / 2;
+		//	background.y = -YRES / 2;
+			
+			
+			
+			var raster:DisplayObject = new BackgroundImage();
+			background.addChild(raster);
+			raster.width = XRES;
+			raster.height = YRES;
+			
+			if (sizeCode == 1) {
+				var bf:BlurFilter = new BlurFilter(BLURX, BLURY);
+				raster.filters = [bf];
+			}
+			
+			var border:Sprite = new Sprite();
+			border.graphics.beginFill(0x000000);
+			border.graphics.drawRect(0, 0, XRES, YRES);
+			border.graphics.endFill();
+			background.addChild(border);
+			
+			background.mask = border;
+			
+			if (DEMO_CONFIG) {
+			    setProjectName(HOUSE_NAME,background);
+			}
+			
+			chartHolder = new Sprite();
+			background.addChild(chartHolder);
+		//	chartHolder.cacheAsBitmap = true;
+				
+			chartHolder.x = XRES - 140 + 65;
+			chartHolder.y = YRES / 2 + 65;
+					
+			
+			if (lineChart != null) {
+				chartHolder.addChild(lineChart);
+			}
+			
+			
+			var topPanel:ShinyPanel = new ShinyPanel(XRES, 60, true);
+			background.addChild(topPanel);
+			
+			var bottomPanel:CurvyPanel = new CurvyPanel(XRES, 125);
+			background.addChild(bottomPanel);
+			bottomPanel.y = YRES - 125;
+			
+			
+			var headerText:SmallLabel = new SmallLabel(WINDOW_TITLE,30,false);
+			background.addChild(headerText);
+			headerText.x = XRES/2-headerText.getXres()/2;
+			headerText.y = 8;
+			
+			
+			
+			
+			
+			
+			
+			
+			background.addChild(sumGauge1);
+			sumGauge1.x = XRES / 2 + 25;
+			sumGauge1.y = YRES - 210;
+			
+			
+			
+			var sidePanel:SideInfoPanel = new SideInfoPanel();
+			background.addChild(sidePanel);
+			sidePanel.y = 95;
+			sidePanel.x = -10;
+			
+		
+			background.addChild(weather);
+			weather.x = XRES - 260;
+			weather.y = 95;
+			
+			
+		
+			
+			background.addChild(solarSystem);
+			solarSystem.x = XRES/2-475/2;
+			solarSystem.y = YRES/2-300/2;
+			
+			
+		
+			background.addChild(slide);
+			slide.x = 15;
+			slide.y = 12;
+			
+			var fullscreen:com.alarex.visual.liveComponents.SimpleButton = new com.alarex.visual.liveComponents.SimpleButton("Fullscreen");
+			background.addChild(fullscreen);
+			fullscreen.addButtonHandler(this.toggleFullscreen);
+			fullscreen.x = XRES - 130;
+			fullscreen.y = 10;
+			
+			contextMenuInit();
+			
+		
+			
+		
+			var logo2:DisplayObject = new AlarexLogo();
+			var logo2Holder:Sprite = new Sprite();
+			logo2Holder.addChild(logo2);
+		
+			leftImprint = new PanelImprint(logo2Holder);
+			background.addChild(leftImprint);
+			leftImprint.x = 4;
+			leftImprint.y = YRES - 95;
+			
+			var logo:DisplayObject = new FactorLogo();
+			var logoHolder:Sprite = new Sprite();
+			logoHolder.addChild(logo);
+			logoHolder.scaleX *= -1;
+			logoHolder.x = 146;
+			
+		
+			
+			rightImprint = new PanelImprint(logoHolder);
+			background.addChild(rightImprint);
+			rightImprint.x = XRES-4;
+			rightImprint.y = YRES - 95;
+			rightImprint.scaleX *= -1;
+			
+			
+			
+			background.addChild(powerGauge1);
+			powerGauge1.x = XRES/2-195;
+			powerGauge1.y = YRES - 210;
+			
+			powerGauge1.setGaugeClickHandler(function():void {
+				if (!gaugeZoomed) {
+					
+					if (background.getChildIndex(powerGauge1) <
+						background.getChildIndex(sumGauge1)) {
+							background.swapChildren(powerGauge1, sumGauge1);
+						}
+					
+					TweenLite.to(powerGauge1, 0.5, { x: XRES / 2 - 200, y:YRES / 2 - 200, scaleX:2, scaleY:2, ease:Quint.easeOut } );
+					
+					if (gaugeZoomed2) {
+						
+						TweenLite.to(sumGauge1, 0.5, { x: XRES/2+25, y:YRES - 210, scaleX:1, scaleY:1, ease:Quint.easeOut } );
+						gaugeZoomed2 = false;
+					}
+					
+					gaugeZoomed = true;
+				} else {
+					TweenLite.to(powerGauge1, 0.5, { x: XRES/2-195, y:YRES - 210, scaleX:1, scaleY:1, ease:Quint.easeOut } );
+					gaugeZoomed = false;
+				}
+			} );
+			
+			background.addChild(sumGauge1);
+			sumGauge1.x = XRES / 2 + 25;
+			sumGauge1.y = YRES - 210;
+			
+			sumGauge1.setGaugeClickHandler(function():void {
+				if (!gaugeZoomed2) {
+					
+					if (background.getChildIndex(powerGauge1) >
+						background.getChildIndex(sumGauge1)) {
+							background.swapChildren(powerGauge1, sumGauge1);
+						}
+					
+					TweenLite.to(sumGauge1, 0.5, { x: XRES / 2 - 200, y:YRES / 2 - 200, scaleX:2, scaleY:2, ease:Quint.easeOut } );
+					
+					if (gaugeZoomed) {
+						TweenLite.to(powerGauge1, 0.5, { x: XRES/2-195, y:YRES - 210, scaleX:1, scaleY:1, ease:Quint.easeOut } );
+						gaugeZoomed = false;
+					}
+					
+					gaugeZoomed2 = true;
+				} else {
+					TweenLite.to(sumGauge1, 0.5, { x: XRES/2+25, y:YRES - 210, scaleX:1, scaleY:1, ease:Quint.easeOut } );
+					gaugeZoomed2 = false;
+				}
+			} );
+			
+			
+		//	gp = new GlassPanel(130,50);
+		//	background.addChild(gp);
+		//	gp.x = XRES-140;
+		//	gp.y = YRES / 2;		
+		
+		
+		//	var pp1:PopupBubble = new PopupBubble(50, 50, 150, 50, 0);
+		//	this.addChild(pp1);
+		
+		//	var pp2:PopupBubble = new PopupBubble(50, 150, 150, 50, 1);
+		//	this.addChild(pp2);
+			
+		//	var pp3:PopupBubble = new PopupBubble(50, 250, 150, 50, 2);
+		//	this.addChild(pp3);
+			
+		//	var pp4:PopupBubble = new PopupBubble(50, 350, 150, 50, 3);
+		//	this.addChild(pp4);
+		
 		}
 		
-		public function _SsidT():void {
+		private function init(e:Event = null):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+			// entry point
+			TweenPlugin.activate([BlurFilterPlugin]);
 			
-			var _DyzGl:ContextMenu = new ContextMenu();
-			_DyzGl.builtInItems.forwardAndBack = false;
-			_DyzGl.builtInItems.loop = false;
-			_DyzGl.builtInItems.play = false;
-			_DyzGl.builtInItems.print = false;
-			_DyzGl.builtInItems.quality = false;
-			_DyzGl.builtInItems.rewind = false;
-			_DyzGl.builtInItems.save = false;
-			_DyzGl.builtInItems.zoom = false;
-			contextMenu = _DyzGl;
+			//addEventListener(Event.RESIZE, initComponents);
+			this.cacheAsBitmap = true;
+			initComponents(0);
 			
-			var _42xtS:ContextMenuItem = new ContextMenuItem("\x28\x63\x29\x20\x32\x30\x31\x31\x20\x4c\x75\x6b\x61\x73\x20\x42\x65\x6e\x64\x61\x2c\x20\x6c\x75\x6b\x65\x2e\x62\x65\x6e\x64\x61\x40\x67\x6d\x61\x69\x6c\x2e\x63\x6f\x6d");
-			_DyzGl.customItems.push(_42xtS);
+			Security.allowDomain("*");
+			Security.allowInsecureDomain("*");
 			
-			var _3EZaZ:ContextMenuItem = new ContextMenuItem("\x74\x6f\x67\x67\x6c\x65\x20\x66\x75\x6c\x6c\x73\x63\x72\x65\x65\x6e");
-			_3EZaZ.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, _aGvHs);
-			_DyzGl.customItems.push(_3EZaZ);
+			//runDemo();
+			//stopDemo();
+			//setColdTemp(Number);	
+			//setHotTemp(Number);
+			//setValueKW(Number);
+			//setKWHSum(Number);
+			
+			ExternalInterface.addCallback("_ax_runDemo", runDemo);
+			ExternalInterface.addCallback("_ax_stopDemo", stopDemo);
+			ExternalInterface.addCallback("_ax_setColdTemp", setColdTemp);
+			ExternalInterface.addCallback("_ax_setHotTemp", setHotTemp);
+			ExternalInterface.addCallback("_ax_setValueKW", setValueKW);
+			ExternalInterface.addCallback("_ax_setKWHSum", setKWHSum);
+			ExternalInterface.addCallback("_ax_toggleFullscreen", toggleFullscreen);
+			ExternalInterface.addCallback("_ax_setProjectName", setProjectName);
+			ExternalInterface.addCallback("_ax_setChartValues", setChartValues);
+			
+			
+			contextMenuInit();
+			
+		//	slide.changeState(1);
+			
+			timer.addEventListener(TimerEvent.TIMER, updateTimer);
+	
+			if (DEMO_CONFIG) {
+						timer.start();
+						this.setChartValues(new Array(1,1,1,1.5,1.5,1.5,1,1,1));
+			}
+	    }
+		
+		public function contextMenuInit():void {
+			
+			var my_menu:ContextMenu = new ContextMenu();
+			my_menu.builtInItems.forwardAndBack = false;
+			my_menu.builtInItems.loop = false;
+			my_menu.builtInItems.play = false;
+			my_menu.builtInItems.print = false;
+			my_menu.builtInItems.quality = false;
+			my_menu.builtInItems.rewind = false;
+			my_menu.builtInItems.save = false;
+			my_menu.builtInItems.zoom = false;
+			contextMenu = my_menu;
+			
+			var cmi:ContextMenuItem = new ContextMenuItem("(c) 2011 Lukas Benda, luke.benda@gmail.com");
+			my_menu.customItems.push(cmi);
+			
+			var cmi2:ContextMenuItem = new ContextMenuItem("toggle fullscreen");
+			cmi2.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, toggleFullscreen);
+			my_menu.customItems.push(cmi2);
 			
 		}
 		
-		public function _aGvHs(e:ContextMenuEvent):void {
+		public function toggleFullscreen(e:ContextMenuEvent = null):void {
+		
 			if (stage.displayState == StageDisplayState.NORMAL) {
+				
+				this.initComponents(0);
+				//stage.fullScreenSourceRect = new Rectangle(0,0,XRES,YRES);
+				
+			
 				stage.scaleMode = StageScaleMode.SHOW_ALL;
-				stage.displayState=StageDisplayState.FULL_SCREEN;
+				
+				stage.displayState = StageDisplayState.FULL_SCREEN;
+				
+				
+				
 			} else {
+				
+				this.initComponents(0);
+				stage.fullScreenSourceRect = new Rectangle(0,0,XRES,YRES);
+				stage.scaleMode = StageScaleMode.NO_SCALE;
 				stage.displayState=StageDisplayState.NORMAL;
 			}
 		}
 		
 		
-		
+		public function setChartValues(ar:Array):void {
+			
+			if (ar != null && !chartSet) {
+			
+				if (ar.length > 5) {
+				
+					var hxxx:Sprite = new Sprite();
+					
+					lineChart = new LineChart1(-65, -65, 130, 130, ar.length, ar, KW_MIN, KW_MAX); //ar.length cols
+					hxxx.addChild(lineChart);
+					lineChart.alpha = 1;
+				//	lineChart.rotationY = 1000;
+					//lineChart.rotationX = 500;
+				//	lineChart.scaleX = 3;
+				//	lineChart.scaleY = 3;
+					
+				
+					chartHolder.addChild(hxxx);
+				
+					chartSet = true;
+					
+					//TweenLite.to(lineChart, 3, { alpha:1, rotationY: 0, rotationX: 0, scaleX: 1, scaleY: 1} );
+				}
+			
+			}
+		}
 	
 		
 		
-		public function _byyP9(e:TimerEvent):void {
+		public function updateTimer(e:TimerEvent):void {
 			
-			_sD9kD++;
+			cnt++;
 			
-			var _XfS5S:Number = Math.random() * 2;
+			var nv:Number = 1.0 + Math.random() * 0.7;
 			
-			this._x8bLw(_XfS5S);
-			this._kHs52 += _XfS5S;
-			this._ZF1ST(this._kHs52);
+			this.setValueKW(nv);
+			this.kwSum += nv;
+			this.setKWHSum(this.kwSum);
 			
-			this._i1A8t(_XfS5S * 10 + 10);
-			this._Dcuu4(_XfS5S * 60 + 60);
+			if (this.lineChart != null) {
+			this.lineChart.insertColumnValue(nv/2);	
+			}
 			
-							
+			
+			this.setColdTemp(nv * 10 + 10);
+			this.setHotTemp(nv * 30 + 60);
+			
+		//	powerGauge1.setValueKW(Math.random() * 2);
+		//	sumGauge1.setKWHSum(cnt);
+			
+		//	lineChart.insertColumnValue(Math.random());
+			
+		//	if (cnt > 4) {
+		//		cnt = 0;
+				
+		//		if (slide.getState() == 0) {
+		//			slide.changeState(1);
+				
+		//		}
+		//		else {
+		//			slide.changeState(0);
 					
-								
-								
-											
-						
-			
+		//		}
+				
+		//	}
+	
 		}
 		
-		public function _jMx1B():void {
+		public function setOnline():void {
 			
-			if (!_N1oJy) {
+			if (!isOnline) {
 				
-				_i1nm4.changeState(1);
+				slide.changeState(1);
 				
-				_N1oJy = true;
+				isOnline = true;
 			}
 			
 		}
 		
-								
-		public function _HjCWl():void {
-			_wGN0w.start();
+		public function setProjectName(pn:String,holder:Sprite):void {
+			var houseName:GlassLabel = new GlassLabel(pn);
+			holder.addChild(houseName);
+			houseName.x = XRES/2-houseName.width/2;
+			houseName.y = 100;
 		}
 		
-		public function _WjxYi():void {
-			_wGN0w.stop();
+		// -----------------------------------------------
+		// ------------- EXTERNAL METHODS ----------------
+		// -----------------------------------------------
+		
+		public function runDemo():void {
+			timer.start();
 		}
 		
-				
-		public function _i1A8t(ct:Number):void {
-			_9wbgv._i1A8t(ct);
-			this._jMx1B();
-		}
-				
-				
-		public function _Dcuu4(ht:Number):void {
-			_9wbgv._Dcuu4(ht);
-			this._jMx1B();
+		public function stopDemo():void {
+			timer.stop();
 		}
 		
+		//SolarSystem::public function setColdTemp(ct:Number):void
+		
+		public function setColdTemp(ct:Number):void {
+			solarSystem.setColdTemp(ct);
+			this.setOnline();
+		}
 				
-		public function _i2l3b(f:Number):void {
-			_9wbgv._i2l3b(f);
-			this._jMx1B();
+		//SolarSystem::public function setHotTemp(ht:Number):void 
+		
+		public function setHotTemp(ht:Number):void {
+			solarSystem.setHotTemp(ht);
+			this.setOnline();
 		}
 		
-				
-		public function _x8bLw(v:Number):void {
-			this._jMx1B();
-			_L88fJ._x8bLw(v);
+		//SolarSystem::public function setFlowFactor(f:Number):void
+		
+		public function setFlowFactor(f:Number):void {
+			solarSystem.setFlowFactor(f);
+			this.setOnline();
+		}
+		
+		//PowerGauge::public function setValueKW(nValue:Number):void
+		
+		public function setValueKW(v:Number):void {
+			this.setOnline();
+			powerGauge1.setValueKW(v);
 			
-			var _mnto0:Number = v / (_rxbhu-_oPMis);
+			var ff:Number = v / (KW_MAX - KW_MIN);
 			
-			_rfROh(v*_mnto0);
-			_5UWt3(v*_mnto0); 
-			_i2l3b(v*_mnto0);
-		}
-		
-				
-		public function _rfROh(f:Number):void {
-			this._jMx1B();
-			_yLAv3.setWeelSpeedFactor(f);
-		}
-		
+			if (this.lineChart != null) {
+				lineChart.insertColumnValue(v / KW_MAX);
+			}
 			
-		public function _ZF1ST(s:Number):void {
-			this._jMx1B();
-			_yLAv3._ZF1ST(s);
+			setWheelSpeedFactor(v*ff);
+			setShineFactor(v*ff); 
+			setFlowFactor(v*ff);
 		}
 		
-				
-		public function _5UWt3(sf:Number):void {
-			this._jMx1B();
-			_peUPE._5UWt3(sf);
+		//SumGauge::public function setWeelSpeedFactor(factor:Number):void
+		
+		public function setWheelSpeedFactor(f:Number):void {
+			this.setOnline();
+			sumGauge1.setWeelSpeedFactor(f);
+		}
+		
+		//SumGague::public function setKWHSum(s:Number):void
+	
+		public function setKWHSum(s:Number):void {
+			this.setOnline();
+			sumGauge1.setKWHSum(s);
+		}
+		
+		//WeatherInfoPanel::public function setShineFactor(sf:Number):void 
+		
+		public function setShineFactor(sf:Number):void {
+			this.setOnline();
+			weather.setShineFactor(sf);
 		}
 		
 	}

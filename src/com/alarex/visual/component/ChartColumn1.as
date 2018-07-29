@@ -4,27 +4,27 @@ package com.alarex.visual.component
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class ChartColumn1 extends Sprite 
 	{
-		private const _qYEcR:int = 2;
+		private const LINES:int = 2;
 		
 		public function ChartColumn1(xp:Number, yp:Number, w:Number, h:Number, prev:Number, curr:Number, dropShadow:Boolean=true, colors5x:Array=null,colors4x:Array=null) 
 		{
 			
-			this.cacheAsBitmap = true;
+			this.cacheAsBitmap = false;
 			
-			var _uW7Jd:Array;
+			var colors5:Array;
 			if (colors5x == null) {
-				_uW7Jd = [0xffff00, 0xff5500];
+				colors5 = [0xffff00, 0xff5500];
 			}
 			
-			var _AS0eS:Array;
+			var colors4:Array;
 			if (colors4x == null) {
-				_AS0eS = [0x0088ff, 0x0088ff];
+				colors4 = [0x0088ff, 0x0088ff];
 			}
 			
 			
@@ -32,118 +32,126 @@ package com.alarex.visual.component
 			if (dropShadow) {
 				
 			
-			var _JfHVY:Sprite = new Sprite();
+			var bg:Sprite = new Sprite();
 			
 			
-			_JfHVY.graphics.beginFill(0xffffff);
-			_JfHVY.graphics.drawRect(0, h - _qYEcR, w, _qYEcR);
-			_JfHVY.graphics.endFill();
+			bg.graphics.beginFill(0xffffff);
+			bg.graphics.drawRect(0, h - LINES, w, LINES);
+			bg.graphics.endFill();
 			
-			var _rBlWG:Matrix = new Matrix();
-						var _6OOOS:Array =[1,0.0];
-			var _FBVJJ:Array =[0,255];
-			_rBlWG.createGradientBox(w, h,Math.PI/2,0,0);
-			_JfHVY.graphics.beginGradientFill(GradientType.LINEAR, _AS0eS, _6OOOS, _FBVJJ, _rBlWG);
+			var mat4:Matrix = new Matrix();
+			//var colors4:Array =[0x0000ff,0x0000ff];  
+			var alphas4:Array =[1,0.0];
+			var ratios4:Array =[0,255];
+			mat4.createGradientBox(w, h,Math.PI/2,0,0);
+			bg.graphics.beginGradientFill(GradientType.LINEAR, colors4, alphas4, ratios4, mat4);
 			
-			_JfHVY.graphics.drawRect(0, 0, w, h-_qYEcR);
-			_JfHVY.graphics.endFill();
+			bg.graphics.drawRect(0, 0, w, h-LINES);
+			bg.graphics.endFill();
 			
-			_JfHVY.graphics.beginFill(0x000000,0.5);
-			_JfHVY.graphics.drawRect(w/2, 0, _qYEcR/2, h-_qYEcR);
-			_JfHVY.graphics.endFill();
+			bg.graphics.beginFill(0x000000,0.5);
+			bg.graphics.drawRect(w/2, 0, LINES/2, h-LINES);
+			bg.graphics.endFill();
 			
-			var _sUrRE:int = (h-_qYEcR) / w;
+			var cnt:int = (h-LINES) / w;
 			
-			for (var _5aEye:int = 1; _5aEye < _sUrRE+1; _5aEye++) {
-				_JfHVY.graphics.beginFill(0x000000,0.5);
-				_JfHVY.graphics.drawRect(0, h-_5aEye * w, w, _qYEcR / 2);
-				_JfHVY.graphics.endFill();
+			for (var j:int = 1; j < cnt+1; j++) {
+				bg.graphics.beginFill(0x000000,0.5);
+				bg.graphics.drawRect(0, h-j * w, w, LINES / 2);
+				bg.graphics.endFill();
 			}
 		
-			this.addChild(_JfHVY);
-			_JfHVY.x = xp;
-			_JfHVY.y = yp;
-			_JfHVY.alpha = 1;
+			this.addChild(bg);
+			bg.x = xp;
+			bg.y = yp;
+			bg.alpha = 1;
 		}
 			
 			
 			
 			
-			var _dJNkq:Sprite = new Sprite();
+			var scale:Sprite = new Sprite();
 			
-			var _acptn:Matrix = new Matrix();
-						var _1xdvJ:Array =[1,1];
-			var _grd3Z:Array =[0,255];
-			_acptn.createGradientBox(w, h-_qYEcR,Math.PI/2,0,0);
-			_dJNkq.graphics.beginGradientFill(GradientType.LINEAR, _uW7Jd, _1xdvJ, _grd3Z, _acptn);
-			_dJNkq.graphics.drawRect(-w/2, 0, w - _qYEcR/2 + _qYEcR/2, h - _qYEcR);
-			_dJNkq.graphics.endFill();
+			var mat5:Matrix = new Matrix();
+			//var colors5:Array =[0xff0000,0xffff00];  
+			var alphas5:Array =[1,1];
+			var ratios5:Array =[0,255];
+			mat5.createGradientBox(w, h-LINES,Math.PI/2,0,0);
+			scale.graphics.beginGradientFill(GradientType.LINEAR, colors5, alphas5, ratios5, mat5);
+			scale.graphics.drawRect(-w/2, 0, w - LINES/2 + LINES/2, h - LINES);
+			scale.graphics.endFill();
 			
-			_dJNkq.cacheAsBitmap = true;
+			scale.cacheAsBitmap = false;
 			
 			
-			for (var _IOtJ0:int = 0; _IOtJ0 < _sUrRE+1; _IOtJ0++) {
-				_dJNkq.graphics.beginFill(0xffffff,0.5);
-				_dJNkq.graphics.drawRect(-w/2, h-_IOtJ0 * w, w, _qYEcR / 2);
-				_dJNkq.graphics.endFill();
+			for (var k:int = 0; k < cnt+1; k++) {
+				scale.graphics.beginFill(0xffffff,0.5);
+				scale.graphics.drawRect(-w/2, h-k * w, w, LINES / 2);
+				scale.graphics.endFill();
 			}
 			
-			_dJNkq.graphics.beginFill(0xffffff,0.5);
-			_dJNkq.graphics.drawRect(-w/2, 0, _qYEcR/2, h);
-			_dJNkq.graphics.endFill();
+			scale.graphics.beginFill(0xffffff,0.5);
+			scale.graphics.drawRect(-w/2, 0, LINES/2, h);
+			scale.graphics.endFill();
 			
-																					
-			this.addChild(_dJNkq);
-			_dJNkq.x = xp;
-			_dJNkq.y = yp;
+			//shading below
+			//scale.graphics.beginFill(0x000000,0.5);
+			//scale.graphics.moveTo( -w / 2, h - h * prev);
+			//scale.graphics.lineTo( w / 2, h - h * curr);
+			//scale.graphics.lineTo( w / 2, (h - h * curr)+LINES*4 );
+			//scale.graphics.lineTo( -w / 2, (h - h * prev)+LINES*4 );
 			
-			var _fzhYa:Sprite = new Sprite();
+			this.addChild(scale);
+			scale.x = xp;
+			scale.y = yp;
 			
-			_fzhYa.graphics.beginFill(0xffffff);
-			_fzhYa.graphics.moveTo( -w / 2, h - h * prev);
-			_fzhYa.graphics.lineTo( w / 2, h - h * curr);
-			_fzhYa.graphics.lineTo( w / 2, h - _qYEcR);
-			_fzhYa.graphics.lineTo( -w / 2, h - _qYEcR);
-			_fzhYa.graphics.endFill();
-			_fzhYa.x = xp;
-			_fzhYa.y = yp;
+			var plane:Sprite = new Sprite();
 			
-			_fzhYa.cacheAsBitmap = true;
+			plane.graphics.beginFill(0xffffff);
+			plane.graphics.moveTo( -w / 2, h - h * prev);
+			plane.graphics.lineTo( w / 2, h - h * curr);
+			plane.graphics.lineTo( w / 2, h - LINES);
+			plane.graphics.lineTo( -w / 2, h - LINES);
+			plane.graphics.endFill();
+			plane.x = xp;
+			plane.y = yp;
 			
-			this.addChild(_fzhYa);
-			_dJNkq.mask = _fzhYa;
+			plane.cacheAsBitmap = false;
 			
-			var _t0wxa:Sprite = new Sprite();
+			this.addChild(plane);
+			scale.mask = plane;
 			
-			_t0wxa.graphics.lineStyle(_qYEcR*4, 0x000000, 0.2);
-			_t0wxa.graphics.moveTo( -w / 2, h - h * prev);
-			_t0wxa.graphics.lineTo( w / 2, h - h * curr);
+			var lines:Sprite = new Sprite();
 			
-			_t0wxa.graphics.lineStyle(_qYEcR*4, 0x000000, 0.2);
-			_t0wxa.graphics.moveTo( -w / 2, h - _qYEcR/2);
-			_t0wxa.graphics.lineTo( w / 2, h - _qYEcR/2);
+			lines.graphics.lineStyle(LINES*4, 0x000000, 0.2);
+			lines.graphics.moveTo( -w / 2, h - h * prev);
+			lines.graphics.lineTo( w / 2, h - h * curr);
 			
-			_t0wxa.graphics.lineStyle(_qYEcR, 0xffffff, 1);
-			_t0wxa.graphics.moveTo( -w / 2, h - h * prev);
-			_t0wxa.graphics.lineTo( w / 2, h - h * curr);
+			lines.graphics.lineStyle(LINES*4, 0x000000, 0.2);
+			lines.graphics.moveTo( -w / 2, h - LINES/2);
+			lines.graphics.lineTo( w / 2, h - LINES/2);
 			
-			_t0wxa.cacheAsBitmap = true;
+			lines.graphics.lineStyle(LINES, 0xffffff, 1);
+			lines.graphics.moveTo( -w / 2, h - h * prev);
+			lines.graphics.lineTo( w / 2, h - h * curr);
 			
-			this.addChild(_t0wxa);
-			_t0wxa.x = xp;
-			_t0wxa.y = yp;
+			lines.cacheAsBitmap = false;
+			
+			this.addChild(lines);
+			lines.x = xp;
+			lines.y = yp;
 			  
-			var _bblrp:Sprite = new Sprite();
-			_bblrp.graphics.beginFill(0x000000);
-			_bblrp.graphics.drawRect( -w*0.5, 0, w*1.5, h - _qYEcR);
-			_bblrp.graphics.endFill();
-			this.addChild(_bblrp);
-			_bblrp.x = xp;
-			_bblrp.y = yp;
+			var lineMask:Sprite = new Sprite();
+			lineMask.graphics.beginFill(0x000000);
+			lineMask.graphics.drawRect( -w*0.5, 0, w*1.5, h - LINES);
+			lineMask.graphics.endFill();
+			this.addChild(lineMask);
+			lineMask.x = xp;
+			lineMask.y = yp;
 			
-			_bblrp.cacheAsBitmap = true;
+			lineMask.cacheAsBitmap = false;
 			
-			_t0wxa.mask = _bblrp;
+			lines.mask = lineMask;
 			
 		
 		}

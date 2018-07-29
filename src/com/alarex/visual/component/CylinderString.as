@@ -2,82 +2,83 @@ package com.alarex.visual.component
 {
 	import flash.display.Sprite;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class CylinderString extends Sprite 
 	{
 	
-		private var _5aZI8:int = 0;
+		private var digitCount:int = 0;
 		
-		private var _KHCRl:int = 0;
-		private var _vSXyt:int = 0;
+		private var prefixCount:int = 0;
+		private var suffixCount:int = 0;
 		
-		private var _RKEmH:Array;
-		private var _7WSKD:String;
+		private var digits:Array;
+		private var oldString:String;
 		
 		
 		public function CylinderString(prefix:String,suffix:String) 
 		{
 			
+		//	this.cacheAsBitmap = true;
+			
+			prefixCount = prefix.length;
+			suffixCount = suffix.length;
+			
+			this.digitCount = prefixCount + suffixCount;
+			this.digits = new Array();
+			
+			var lastX:int = 0;
 					
-			_KHCRl = prefix.length;
-			_vSXyt = suffix.length;
 			
-			this._5aZI8 = _KHCRl + _vSXyt;
-			this._RKEmH = new Array();
-			
-			var _99AFL:int = 0;
-					
-			
-			for (var _mhP1k:int = 0; _mhP1k < this._KHCRl; _mhP1k++) {
-				var _Lmh3t:CylinderDigit = new CylinderDigit(false);
-				_Lmh3t.x = _99AFL;
-				_99AFL += _Lmh3t.getRealWidth();
+			for (var i:int = 0; i < this.prefixCount; i++) {
+				var digit:CylinderDigit = new CylinderDigit(false);
+				digit.x = lastX;
+				lastX += digit.getRealWidth();
 				
-				this._RKEmH.push(_Lmh3t);
-				this.addChild(_Lmh3t);
+				this.digits.push(digit);
+				this.addChild(digit);
 			}
 			
-			for (var _N69iD:int = 0; _N69iD < this._vSXyt; _N69iD++) {
-				_Lmh3t = new CylinderDigit(true);
-				_Lmh3t.x = _99AFL;
-				_99AFL += _Lmh3t.getRealWidth();
+			for (var j:int = 0; j < this.suffixCount; j++) {
+				digit = new CylinderDigit(true);
+				digit.x = lastX;
+				lastX += digit.getRealWidth();
 				
-				this._RKEmH.push(_Lmh3t);
-				this.addChild(_Lmh3t);
+				this.digits.push(digit);
+				this.addChild(digit);
 			}
 		}
 		
 		
-		public function _qA6lz(newString:String):void {
+		public function changeString(newString:String):void {
 			
 			
 			
 			
-			var _Amfqz:String = newString;		
+			var s:String = newString;		
 			
 						
-			if (_Amfqz.length > this._5aZI8) 
+			if (s.length > this.digitCount) 
 				return;
 			
-			while (_Amfqz.length < this._5aZI8) {
-				_Amfqz = "\x30" + _Amfqz;
+			while (s.length < this.digitCount) {
+				s = "0" + s;
 			}
 			
-			if (_Amfqz.indexOf("\x2e") != -1) {
-				var _mVgqj:String = _Amfqz;
+			if (s.indexOf(".") != -1) {
+				var o:String = s;
 				
-				_Amfqz = _mVgqj.substring(0, _mVgqj.indexOf("\x2e")) + _mVgqj.substring(_mVgqj.indexOf("\x2e") + 1);
+				s = o.substring(0, o.indexOf(".")) + o.substring(o.indexOf(".") + 1);
 			}
 		
-			for (var _mhP1k:int = 0; _mhP1k < _Amfqz.length; _mhP1k++) {
+			for (var i:int = 0; i < s.length; i++) {
 				
-				var _AYD0a:CylinderDigit = _RKEmH[_mhP1k+1] as CylinderDigit;
-				var _u9EuS:String = _Amfqz.charAt(_mhP1k);
+				var d:CylinderDigit = digits[i+1] as CylinderDigit;
+				var dv:String = s.charAt(i);
 											
-				_AYD0a.changeNumber(int(_u9EuS));
+				d.changeNumber(int(dv));
 								
 			}
 						

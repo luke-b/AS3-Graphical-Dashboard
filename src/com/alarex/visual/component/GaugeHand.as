@@ -5,14 +5,14 @@ package com.alarex.visual.component
 	import flash.display.GradientType;
 	import flash.filters.BlurFilter;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class GaugeHand extends Sprite 
 	{
-		private var _QY24w:Sprite = new Sprite();
-		private var _vhySp:Sprite = new Sprite();
+		private var shadow:Sprite = new Sprite();
+		private var hand:Sprite = new Sprite();
 			
 		
 		public function GaugeHand() 
@@ -20,41 +20,41 @@ package com.alarex.visual.component
 			
 			this.cacheAsBitmap = true;
 			
-			var _5xaYC:BlurFilter = new BlurFilter(5, 5);
+			var b:BlurFilter = new BlurFilter(5, 5);
 			
-			_QY24w.cacheAsBitmap = true;
+			shadow.cacheAsBitmap = true;
 			
-			_QY24w.graphics.beginFill(0x000000);
-			_QY24w.graphics.moveTo( -9, 0);
-			_QY24w.graphics.lineTo(  0, -72);
-			_QY24w.graphics.lineTo(  9, 0);
-			_QY24w.graphics.lineTo( -9, 0);
-			_QY24w.graphics.endFill();
+			shadow.graphics.beginFill(0x000000);
+			shadow.graphics.moveTo( -9, 0);
+			shadow.graphics.lineTo(  0, -72);
+			shadow.graphics.lineTo(  9, 0);
+			shadow.graphics.lineTo( -9, 0);
+			shadow.graphics.endFill();
 			
-			_QY24w.graphics.beginFill(0x000000);
-			_QY24w.graphics.drawCircle(0, 0, 15);
-			_QY24w.graphics.endFill();
+			shadow.graphics.beginFill(0x000000);
+			shadow.graphics.drawCircle(0, 0, 15);
+			shadow.graphics.endFill();
 			
-			this.addChild(_QY24w);
-			_QY24w.filters = [_5xaYC];
+			this.addChild(shadow);
+			shadow.filters = [b];
 			
-			var _3CyXW:Matrix = new Matrix();
-			var _We5Q0:Array =  [ 0xFFFFFF, 0xAAAAAA, 0xAAAAAA];
-			var _MHRQz:Array =[1,1,1];
-			var _vBE8W:Array =[0,150,255];
-			_3CyXW.createGradientBox(10, 70, Math.PI/2, 0, -50);
-			_vhySp.graphics.beginGradientFill(GradientType.LINEAR, _We5Q0, _MHRQz, _vBE8W, _3CyXW);
-			_vhySp.graphics.moveTo( -5, 0);
-			_vhySp.graphics.lineTo(  0, -70);
-			_vhySp.graphics.lineTo(  5, 0);
-			_vhySp.graphics.lineTo( -5, 0);
-			_vhySp.graphics.endFill();
+			var mat9:Matrix = new Matrix();
+			var colors9:Array =  [ 0xFFFFFF, 0xAAAAAA, 0xAAAAAA];
+			var alphas9:Array =[1,1,1];
+			var ratios9:Array =[0,150,255];
+			mat9.createGradientBox(10, 70, Math.PI/2, 0, -50);
+			hand.graphics.beginGradientFill(GradientType.LINEAR, colors9, alphas9, ratios9, mat9);
+			hand.graphics.moveTo( -5, 0);
+			hand.graphics.lineTo(  0, -70);
+			hand.graphics.lineTo(  5, 0);
+			hand.graphics.lineTo( -5, 0);
+			hand.graphics.endFill();
 			
-			_vhySp.cacheAsBitmap = true;
+			hand.cacheAsBitmap = true;
 			
 		
 			
-			this.addChild(_vhySp);
+			this.addChild(hand);
 		}
 		
 	}

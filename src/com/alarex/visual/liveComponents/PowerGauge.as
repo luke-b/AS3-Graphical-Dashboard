@@ -10,102 +10,145 @@ package com.alarex.visual.liveComponents
 	import flash.display.Sprite;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Elastic;
+	import flash.events.MouseEvent;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class PowerGauge extends Sprite 
 	{
 
-		private var _F32Bk:GaugeFrame;
-		private var _yMTka:GaugeScaleLines;
-		private var _qXP40:GaugeScaleGradient;
-		private var _e69OL:GaugeHand;
-		private var _gJwgw:SmallLabel;
-		private var _QX0Si:DigitalString;
-		private var _QsV6S:GaugeHandTop;
+		private var frame:GaugeFrame;
+		private var lineScale:GaugeScaleLines;
+		private var gradScale:GaugeScaleGradient;
+		private var hand:GaugeHand;
+		private var label:SmallLabel;
+		private var digital:DigitalString;
+		private var handTop:GaugeHandTop;
+		private var overlay:Sprite;
 		
-		private var _IJ0Iv:Number;
-		private var _oUinL:Number;
-		private var _bCqqj:Number;
+		private var minValue:Number;
+		private var maxValue:Number;
+		private var newValue:Number;
+		
+		private var fnc:Function = null;
 		
 		public function PowerGauge(mValue:Number, maValue:Number) 
 		{
 			this.cacheAsBitmap = true;
 			
-			this._IJ0Iv = mValue;
-			this._oUinL = maValue;
+			this.minValue = mValue;
+			this.maxValue = maValue;
 			
 			
-			_F32Bk = new GaugeFrame();
-			this.addChild(_F32Bk);
+			frame = new GaugeFrame();
+			this.addChild(frame);
 		
-				_gJwgw = new SmallLabel("\x6b\x57\x20\x54\x48", 15, false);
-			this.addChild(_gJwgw);
-			_gJwgw.x = 91-_gJwgw.getXres()/2;
-			_gJwgw.y = 145;
+				label = new SmallLabel("kW TH", 15, false);
+			this.addChild(label);
+			label.x = 91-label.getXres()/2;
+			label.y = 145;
 			
-			_QX0Si = new DigitalString("\x30\x30\x30");
-			_QX0Si.scaleX = 0.25;
-			_QX0Si.scaleY = 0.25;
-			this.addChild(_QX0Si);
-			_QX0Si.x = 57;
-			_QX0Si.y = 115;
+			digital = new DigitalString("000");
+			digital.scaleX = 0.25;
+			digital.scaleY = 0.25;
+			this.addChild(digital);
+			digital.x = 57;
+			digital.y = 115;
 			
-			_QX0Si.changeString("\x30\x2e\x30\x30");
-			
-			
-			_yMTka = new GaugeScaleLines(21, 5);
-			this.addChild(_yMTka);
-			_yMTka.x = 93;
-			_yMTka.y = 93;
-			
-			_qXP40 = new GaugeScaleGradient(93, 93, 75, 5, [0xff0000, 0xffff00, 0x00ff00], 2);
-			this.addChild(_qXP40);
+			digital.changeString("0.00");
 			
 			
-			_e69OL = new GaugeHand();
-			this.addChild(_e69OL);
-			_e69OL.x = 93;
-			_e69OL.y = 93;
+			lineScale = new GaugeScaleLines(21, 5);
+			this.addChild(lineScale);
+			lineScale.x = 93;
+			lineScale.y = 93;
 			
-			_e69OL.rotation = -90;
+			gradScale = new GaugeScaleGradient(93, 93, 75, 5, [0xff0000, 0xffff00, 0x00ff00], 2);
+			this.addChild(gradScale);
 			
-			_QsV6S = new GaugeHandTop();
-			this.addChild(_QsV6S);
-			_QsV6S.x = 93;
-			_QsV6S.y = 93;
+			
+			hand = new GaugeHand();
+			this.addChild(hand);
+			hand.x = 93;
+			hand.y = 93;
+			
+			hand.rotation = -90;
+			
+			handTop = new GaugeHandTop();
+			this.addChild(handTop);
+			handTop.x = 93;
+			handTop.y = 93;
+			
+			
+			overlay = new Sprite();
+			overlay.graphics.beginFill(0xFFFFFF);
+			overlay.graphics.drawCircle(187 / 2, 187 / 2, 187 / 2);
+			overlay.graphics.endFill();
+			overlay.alpha = 0;
+			this.addChild(overlay);
+			overlay.buttonMode = true;
+			overlay.useHandCursor = true;
 			
 			
 		
-			
+			overlay.addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
+			overlay.addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+			overlay.addEventListener(MouseEvent.MOUSE_DOWN, clickHandler);
 		}
 		
 		
-		public function _2I0OO(nValue:Number):void {
+		public function setValueKW(nValue:Number):void {
 			
 			
-			if (this._bCqqj != nValue) {
+			if (this.newValue != nValue) {
 	
-				var _w05er:Number = 180 / (this._oUinL - this._IJ0Iv);
-				var _pHzy5:Number = nValue;
-				if (_pHzy5 < _IJ0Iv) _pHzy5 = _IJ0Iv;
-				if (_pHzy5 > _oUinL) _pHzy5 = _oUinL;
+				var step:Number = 180 / (this.maxValue - this.minValue);
+				var hndValue:Number = nValue;
+				if (hndValue < minValue) hndValue = minValue;
+				if (hndValue > maxValue) hndValue = maxValue;
 				
-				var _qdryh:Number = _pHzy5 * _w05er - 90;
-									
-				TweenLite.to(_e69OL, 2, { rotation:_qdryh, ease:Elastic.easeOut} );
+				var hndAngle:Number = hndValue * step - 90;
+				//hand.rotation = nValue * step - 90;
+					
+				TweenLite.to(hand, 2, { rotation:hndAngle, ease:Elastic.easeOut} );
 				
-				this._bCqqj = nValue;
+				this.newValue = nValue;
 				
-				if (this._bCqqj < 0) this._bCqqj = 0;
-				if (this._bCqqj > 99) this._bCqqj = 99;
+				if (this.newValue < 0) this.newValue = 0;
+				if (this.newValue > 99) this.newValue = 99;
 				
-				var _vAhm8:String = _bCqqj.toFixed(2);
-				_QX0Si.changeString(_vAhm8);
+				var str:String = newValue.toFixed(2);
+				digital.changeString(str);
 			}
 		}
+		
+		public function setGaugeClickHandler(f:Function):void {
+			this.fnc = f;
+		}
+		
+		public function clickHandler(me:MouseEvent):void {
+			TweenLite.to(overlay, 0.25, { alpha:0.2 , onComplete: backAnim } );
+		
+			if (fnc != null) {
+				fnc();
+			}
+		}
+		
+		public function backAnim():void {
+			TweenLite.to(overlay, 0.25, { alpha:0.5 } );
+		}
+		
+		
+		private function mouseOverHandler(me:MouseEvent):void {
+			TweenLite.to(overlay,2, { alpha:0.5 } );
+		}
+		
+		private function mouseOutHandler(me:MouseEvent):void {
+			TweenLite.to(overlay,2, { alpha:0.0 } );
+		}
+		
 		
 	}
 

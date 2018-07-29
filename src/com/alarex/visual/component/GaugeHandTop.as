@@ -4,40 +4,40 @@ package com.alarex.visual.component
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class GaugeHandTop extends Sprite 
 	{
 		
-		private var _1PAj4:Sprite = new Sprite();
+		private var hand:Sprite = new Sprite();
 		
 		public function GaugeHandTop() 
 		{
 			this.cacheAsBitmap = true;
 			
-			var _6ViaM:Matrix = new Matrix();
-			var _bQhoc:Array =  [ 0xFFFFFF, 0xFFFFFF, 0xAAAAAA];
-			var _N30KE:Array =[1,1,1];
-			var _7qv1m:Array =[0,150,255];
-			_6ViaM.createGradientBox(26, 26, Math.PI/2, 0, -20);
-			_1PAj4.graphics.beginGradientFill(GradientType.LINEAR, _bQhoc, _N30KE, _7qv1m, _6ViaM);
-			_1PAj4.graphics.drawCircle(0, 0, 13);
-			_1PAj4.graphics.endFill();
-			_1PAj4.cacheAsBitmap = true;
+			var mat7:Matrix = new Matrix();
+			var colors7:Array =  [ 0xFFFFFF, 0xFFFFFF, 0xAAAAAA];
+			var alphas7:Array =[1,1,1];
+			var ratios7:Array =[0,150,255];
+			mat7.createGradientBox(26, 26, Math.PI/2, 0, -20);
+			hand.graphics.beginGradientFill(GradientType.LINEAR, colors7, alphas7, ratios7, mat7);
+			hand.graphics.drawCircle(0, 0, 13);
+			hand.graphics.endFill();
+			hand.cacheAsBitmap = true;
 			
-			var _wXp58:Matrix = new Matrix();
-			var _eptd8:Array =  [ 0xFFFFFF, 0xFFFFFF, 0xAAAAAA];
-			var _VBEaO:Array =[1,1,1];
-			var _fjqCx:Array =[0,150,255];
-			_wXp58.createGradientBox(26, 26, -Math.PI/2, 0, -10);
-			_1PAj4.graphics.beginGradientFill(GradientType.LINEAR, _eptd8, _VBEaO, _fjqCx, _wXp58);
-			_1PAj4.graphics.drawCircle(0, 0, 10);
-			_1PAj4.graphics.endFill();
+			var mat8:Matrix = new Matrix();
+			var colors8:Array =  [ 0xFFFFFF, 0xFFFFFF, 0xAAAAAA];
+			var alphas8:Array =[1,1,1];
+			var ratios8:Array =[0,150,255];
+			mat8.createGradientBox(26, 26, -Math.PI/2, 0, -10);
+			hand.graphics.beginGradientFill(GradientType.LINEAR, colors8, alphas8, ratios8, mat8);
+			hand.graphics.drawCircle(0, 0, 10);
+			hand.graphics.endFill();
 			
 			
-			this.addChild(_1PAj4);
+			this.addChild(hand);
 		}
 		
 	}

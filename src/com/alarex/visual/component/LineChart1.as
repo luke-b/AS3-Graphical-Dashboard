@@ -10,140 +10,162 @@ package com.alarex.visual.component
 	import com.greensock.easing.Linear;
 	
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class LineChart1 extends Sprite 
 	{
 		
-		private var _1JrEO:Sprite = new Sprite();
-		private var _aajEW:Sprite = new Sprite();
+		private var columns:Sprite = new Sprite();
+		private var columnMask:Sprite = new Sprite();
 		
-		private var _wXx2y:Array = new Array();
-		private var _uAesA:int = 0;
-		private var _OWEh3:Number;
-		private var _xkxkK:Array = new Array();
+		private var newValues:Array = new Array();
+		private var count:int = 0;
+		private var columnWidth:Number;
+		private var values:Array = new Array();
 		
-		private var _EbeDC:Sprite = new Sprite();
-		private var _jlf73:Number = 0;
+		private var slider:Sprite = new Sprite();
+		private var slide:Number = 0;
 		
-		private var _EfPYi:Number;
-		private var _CqYPv:Number;
-		private var _Dfh3r:Number;
-		private var _AJHwB:Number;
+		private var xpp:Number;
+		private var ypp:Number;
+		private var wp:Number;
+		private var hp:Number;
+		private var pos:int = 0;
 		
-		public function LineChart1(xp:Number,yp:Number,w:Number,h:Number,cnt:int) 
+		private var twl:TweenLite = null;
+		
+		public function LineChart1(xp:Number,yp:Number,w:Number,h:Number,cnt:int,ar:Array=null,chmin:Number=0,chmax:Number=1) 
 		{
-			this.cacheAsBitmap = true;
+			this.cacheAsBitmap = false;
 			
-			this._EfPYi = xp;
-			this._CqYPv = yp;
-			this._Dfh3r = w;
-			this._AJHwB = h;
+			this.xpp = xp;
+			this.ypp = yp;
+			this.wp = w;
+			this.hp = h;
 			
-			this._uAesA = cnt;
-			this._OWEh3 = w / cnt;
+			this.count = cnt;
+			this.columnWidth = w / cnt;
 			
 			
-			for (var _NNDsA:int = 0; _NNDsA < cnt; _NNDsA++) {
-				_xkxkK.push(Math.random());
+			for (var j:int = 0; j < cnt; j++) {
+				if (ar == null) {
+				    values.push(0);
+				} else {
+					values.push((ar[j] as Number)/chmax);
+				}
 			}
 						
-			for (var _1QhVa:int = 0; _1QhVa < cnt; _1QhVa++) {
-				var _08yxx:ChartColumn1 = new ChartColumn1(xp + _1QhVa * _OWEh3, yp, _OWEh3, h, 
-														  (_1QhVa == 0?0.0:_xkxkK[_1QhVa - 1] as Number),
-														  _xkxkK[_1QhVa] as Number, true);
+			for (var i:int = 0; i < cnt; i++) {
+				var column:ChartColumn1 = new ChartColumn1(xp + i * columnWidth, yp, columnWidth, h, 
+														  (i == 0?0.0:values[i - 1] as Number),
+														  values[i] as Number, true);
 														  
-				_08yxx.cacheAsBitmap = true;
-				_EbeDC.addChild(_08yxx);
+				column.cacheAsBitmap = false;
+				slider.addChild(column);
 			}
-			_1JrEO.blendMode = BlendMode.LAYER;
-			_1JrEO.addChild(_EbeDC);
-			_1JrEO.cacheAsBitmap = true;
-			_EbeDC.cacheAsBitmap = true;
-			this.addChild(_1JrEO);
+			columns.blendMode = BlendMode.LAYER;
+			columns.addChild(slider);
+			columns.cacheAsBitmap = false;
+			slider.cacheAsBitmap = false;
+			this.addChild(columns);
 			
-			var _ucjDl:Number = (_OWEh3 / w) * 255;
+			var fc:Number = (columnWidth / w) * 255;
 			
-			var _S1IFG:Matrix = new Matrix();
-			var _hcK5f:Array =[0xffffff,0xffffff,0xffffff,0xffffff,0xffffff];  
-			var _AMuBh:Array =[0,1,1,1,0];
-			var _KvnZN:Array =[0,_ucjDl,_ucjDl,255-_ucjDl*2,255-_ucjDl];
-			_S1IFG.createGradientBox(w, h,0,0,0);
-			_aajEW.graphics.beginGradientFill(GradientType.LINEAR, _hcK5f, _AMuBh, _KvnZN, _S1IFG);
-			_aajEW.graphics.drawRect(0-_OWEh3/2, 0, w+_OWEh3, h);
-			_aajEW.graphics.endFill();
+			var mat4:Matrix = new Matrix();
+			var colors4:Array =[0xffffff,0xffffff,0xffffff,0xffffff,0xffffff];  
+			var alphas4:Array = [0, 1, 1, 1, 0];  //posledni 0 dela pekny rozmaz 
+ 			var ratios4:Array =[0,fc,fc,255-fc*2,255-fc];
+			mat4.createGradientBox(w, h,0,0,0);
+			columnMask.graphics.beginGradientFill(GradientType.LINEAR, colors4, alphas4, ratios4, mat4);
+			columnMask.graphics.drawRect(0-columnWidth/2, 0, w+columnWidth, h);
+			columnMask.graphics.endFill();
 			
-			_aajEW.graphics.beginFill(0xffffff, 0.0);
-			_aajEW.graphics.drawRect(w, 0, _OWEh3*5, h);
-			_aajEW.graphics.endFill();
+			columnMask.graphics.beginFill(0xffffff, 0.0);
+			columnMask.graphics.drawRect(w, 0, columnWidth*5, h);
+			columnMask.graphics.endFill();
 			
-			_aajEW.graphics.beginFill(0xffffff, 0.0);
-			_aajEW.graphics.drawRect(-_OWEh3*5, 0, _OWEh3*5, h);
-			_aajEW.graphics.endFill();
+			columnMask.graphics.beginFill(0xffffff, 0.0);
+			columnMask.graphics.drawRect(-columnWidth*5, 0, columnWidth*5, h);
+			columnMask.graphics.endFill();
 			
-			_aajEW.cacheAsBitmap = true;
-			_aajEW.blendMode = BlendMode.ALPHA;
-			_1JrEO.addChild(_aajEW);
-			_aajEW.x = xp;
-			_aajEW.y = yp;
+			columnMask.cacheAsBitmap = false;
+			columnMask.blendMode = BlendMode.ALPHA;
+			columns.addChild(columnMask);
+			columnMask.x = xp;
+			columnMask.y = yp;
 			
-			var _1KEd6:Timer = new Timer(500, 0);
-			_1KEd6.addEventListener(TimerEvent.TIMER, _y1Lym);
-			_1KEd6.start();
+			
+			
+			var t:Timer = new Timer(500, 0);
+			t.addEventListener(TimerEvent.TIMER, updateChart);
+			t.start();
 		}
 	
-		public function _2NuLM(nn:Number):void {
+		public function insertColumnValue(nn:Number):void {
 			
-				var _e4mKo:Number = nn;
-				
-				if (nn < 0) _e4mKo = 0;
-				if (nn > 1) _e4mKo = 1;
-			
-				var _08yxx:ChartColumn1 = new ChartColumn1(_EfPYi + _uAesA * _OWEh3 + _jlf73, _CqYPv, _OWEh3, _AJHwB, 
-														  (_xkxkK[_uAesA -1] as Number),
-														  _e4mKo, true);
-				_08yxx.alpha = 0;
-				_EbeDC.addChild(_08yxx);
-				_jlf73 += _OWEh3;
-				_xkxkK[_uAesA - 1] = _e4mKo;
-				var _J3zuj:Number = _08yxx.x - _OWEh3;
-				
-				TweenLite.to(_08yxx, 0.45, { alpha:1,ease:Linear.easeNone } );
-				TweenLite.to(_EbeDC, 0.45, { x: -_jlf73, onComplete:_GOVka,ease:Linear.easeNone} ); 					}
-		
-		public function _GOVka():void {
-			_EbeDC.removeChildAt(0);
-		}
-		
-		public function _oBxP0(col:Sprite):void {
-			_1JrEO.removeChild(col);
-			_EbeDC.addChild(col);
-			col.x = _EfPYi + _uAesA * _OWEh3 + _jlf73;
-			_1JrEO.removeChildAt(0);
-		}
-		
-		public function _y1Lym(e:TimerEvent):void {
-			
-			if (_wXx2y.length != 0) {
-				
-				var _TPdsA:Number = _wXx2y[0] as Number;
-				
-				if (_wXx2y.length > 1) {
-					var _tqLcF:int = _wXx2y.length;
-					_wXx2y = _wXx2y.slice(1, _tqLcF - 2);
-				} else {
-					_wXx2y = new Array();
+				pos++;
+				var n:Number = nn;
+
+				TweenLite.killTweensOf(slider);
+				TweenLite.killTweensOf(column);
+				if (pos>3) {
+				   kickFirstColumn();
 				}
 				
-				this._2NuLM(_TPdsA); 
+				if (nn < 0) n = 0;
+				if (nn > 1) n = 1;
+			
+				var column:ChartColumn1 = new ChartColumn1(xpp + count * columnWidth + slide, ypp, columnWidth, hp, 
+														  (values[count -1] as Number),
+														  n, true);
+				column.alpha = 0;
+				slider.addChild(column);
+				slide += columnWidth;
+				values[count - 1] = n;
+				var np:Number = column.x - columnWidth;
+				
+				TweenLite.to(column, 0.45, { alpha:1,ease:Linear.easeNone } );
+				twl = TweenLite.to(slider, 0.45, { x: -slide, ease:Linear.easeNone} ); //, onComplete:finishSlide(column) 
+			//	TweenLite.to(column, 0.25, { x: np} );
+			
+			
+		}
+		
+		public function kickFirstColumn():void {
+			
+			
+			slider.removeChildAt(0);
+		}
+		
+		public function finishSlide(col:Sprite):void {
+			columns.removeChild(col);
+			slider.addChild(col);
+			col.x = xpp + count * columnWidth + slide;
+			columns.removeChildAt(0);
+		}
+		
+		public function updateChart(e:TimerEvent):void {
+			
+			if (newValues.length != 0) {
+				
+				var v:Number = newValues[0] as Number;
+				
+				if (newValues.length > 1) {
+					var l:int = newValues.length;
+					newValues = newValues.slice(1, l - 2);
+				} else {
+					newValues = new Array();
+				}
+				
+				this.insertColumnValue(v); 
 			}
 			
 		}
 		
-		public function _dUOce(_TPdsA:Number):void {
-			_wXx2y.push(_TPdsA);
+		public function addValue(v:Number):void {
+			newValues.push(v);
 		}
 	}
 

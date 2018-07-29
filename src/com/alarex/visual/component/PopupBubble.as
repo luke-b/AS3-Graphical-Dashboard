@@ -4,10 +4,10 @@ package com.alarex.visual.component
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class PopupBubble extends Sprite 
 	{
 		
@@ -19,99 +19,99 @@ package com.alarex.visual.component
 				
 				case 0: 
 					
-					_zwuwC(xp, yp+10, w, h-10,this);
-					_n6Gyv(xp + w / 2 , yp, 10, 10, orientation, this);
+					drawPanelX(xp, yp+10, w, h-10,this);
+					drawArrowX(xp + w / 2 , yp, 10, 10, orientation, this);
 					
-					_RGb4N(xp, yp+10, w, h-10,this);
-					_IcbPv(xp + w / 2 , yp, 10, 10, orientation, this);
+					drawPanel(xp, yp+10, w, h-10,this);
+					drawArrow(xp + w / 2 , yp, 10, 10, orientation, this);
 					
 					break;
 				case 1: 
-					_zwuwC(xp+10, yp, w-10, h,this);
-					_n6Gyv(xp, yp  + h / 2, 10, 10, orientation, this);
+					drawPanelX(xp+10, yp, w-10, h,this);
+					drawArrowX(xp, yp  + h / 2, 10, 10, orientation, this);
 					
-					_RGb4N(xp+10, yp, w-10, h,this);
-					_IcbPv(xp, yp  + h / 2, 10, 10, orientation, this);
+					drawPanel(xp+10, yp, w-10, h,this);
+					drawArrow(xp, yp  + h / 2, 10, 10, orientation, this);
 					
 					break;
 				case 2: 
 					
-					_zwuwC(xp, yp, w, h-10,this);
-					_n6Gyv(xp + w / 2, yp + h, 10, 10, orientation, this);
+					drawPanelX(xp, yp, w, h-10,this);
+					drawArrowX(xp + w / 2, yp + h, 10, 10, orientation, this);
 					
-					_RGb4N(xp, yp, w, h-10,this);
-					_IcbPv(xp + w / 2, yp + h, 10, 10, orientation, this);
+					drawPanel(xp, yp, w, h-10,this);
+					drawArrow(xp + w / 2, yp + h, 10, 10, orientation, this);
 					
 					break;
 				case 3: 
-					_zwuwC(xp, yp, w-10, h,this);
-					_n6Gyv(xp + w, yp + h / 2, 10, 10, orientation, this);
+					drawPanelX(xp, yp, w-10, h,this);
+					drawArrowX(xp + w, yp + h / 2, 10, 10, orientation, this);
 					
-					_RGb4N(xp, yp, w-10, h,this);
-					_IcbPv(xp + w, yp + h / 2, 10, 10, orientation, this);
+					drawPanel(xp, yp, w-10, h,this);
+					drawArrow(xp + w, yp + h / 2, 10, 10, orientation, this);
 					
 					break;
 								
 			}
 		}
 		
-		private function _IcbPv(xp:Number, yp:Number, w:Number, h:Number,orientation:int,holder:Sprite):void {
+		private function drawArrow(xp:Number, yp:Number, w:Number, h:Number,orientation:int,holder:Sprite):void {
 			
-			var _X7k9g:Sprite = new Sprite();
+			var arrow:Sprite = new Sprite();
 			
-			var _xOARz:Matrix = new Matrix();
-			var _ADhWC:Array =[0xdddddd,0xffffff];  
-			var _P3WSg:Array =[1,1];
-			var _TeuCO:Array =[0,255];
-			_xOARz.createGradientBox(w, h,Math.PI/2,0,0);
-			_X7k9g.graphics.beginGradientFill(GradientType.LINEAR, _ADhWC, _P3WSg, _TeuCO, _xOARz);
-			_X7k9g.graphics.moveTo(0, 0);
-			_X7k9g.graphics.lineTo(w/2, h);
-			_X7k9g.graphics.lineTo(-w/2, h);
-			_X7k9g.graphics.endFill();
-			_X7k9g.x = xp;
-			_X7k9g.y = yp;
-			_X7k9g.rotation = -orientation * 90;
-			_X7k9g.cacheAsBitmap = true;
-			holder.addChild(_X7k9g);
+			var mat5:Matrix = new Matrix();
+			var colors5:Array =[0xdddddd,0xffffff];  
+			var alphas5:Array =[1,1];
+			var ratios5:Array =[0,255];
+			mat5.createGradientBox(w, h,Math.PI/2,0,0);
+			arrow.graphics.beginGradientFill(GradientType.LINEAR, colors5, alphas5, ratios5, mat5);
+			arrow.graphics.moveTo(0, 0);
+			arrow.graphics.lineTo(w/2, h);
+			arrow.graphics.lineTo(-w/2, h);
+			arrow.graphics.endFill();
+			arrow.x = xp;
+			arrow.y = yp;
+			arrow.rotation = -orientation * 90;
+			arrow.cacheAsBitmap = true;
+			holder.addChild(arrow);
 		}
 		
-		private function _RGb4N(xp:Number, yp:Number, w:Number, h:Number,holder:Sprite):void {
+		private function drawPanel(xp:Number, yp:Number, w:Number, h:Number,holder:Sprite):void {
 			
-			var _dhkmA:Sprite = new Sprite();
+			var panel:Sprite = new Sprite();
 			
-			var _xOARz:Matrix = new Matrix();
-			var _ADhWC:Array =[0xeeeeee,0xffffff,0xffffff,0xeeeeee];  
-			var _P3WSg:Array =[1,1,1,1];
-			var _TeuCO:Array =[0,45,210,255];
-			_xOARz.createGradientBox(w, h,Math.PI/2,0,-h*0.1);
-			_dhkmA.graphics.beginGradientFill(GradientType.LINEAR, _ADhWC, _P3WSg, _TeuCO, _xOARz);
-			_dhkmA.graphics.drawRoundRect(0, 0, w, h, 20, 20);
-			_dhkmA.graphics.endFill();
-			_dhkmA.x = xp;
-			_dhkmA.y = yp;
-			_dhkmA.cacheAsBitmap = true;
-			holder.addChild(_dhkmA);
+			var mat5:Matrix = new Matrix();
+			var colors5:Array =[0xeeeeee,0xffffff,0xffffff,0xeeeeee];  
+			var alphas5:Array =[1,1,1,1];
+			var ratios5:Array =[0,45,210,255];
+			mat5.createGradientBox(w, h,Math.PI/2,0,-h*0.1);
+			panel.graphics.beginGradientFill(GradientType.LINEAR, colors5, alphas5, ratios5, mat5);
+			panel.graphics.drawRoundRect(0, 0, w, h, 20, 20);
+			panel.graphics.endFill();
+			panel.x = xp;
+			panel.y = yp;
+			panel.cacheAsBitmap = true;
+			holder.addChild(panel);
 		}
 		
 		
-		private function _n6Gyv(xp:Number, yp:Number, w:Number, h:Number,orientation:int,holder:Sprite):void {
+		private function drawArrowX(xp:Number, yp:Number, w:Number, h:Number,orientation:int,holder:Sprite):void {
 			
-			var _X7k9g:Sprite = new Sprite();
+			var arrow:Sprite = new Sprite();
 			
-			_X7k9g.graphics.beginFill(0x000000);
-			_X7k9g.graphics.moveTo(0, 0-3);
-			_X7k9g.graphics.lineTo(w/2+2, h);
-			_X7k9g.graphics.lineTo(-w/2-2, h);
-			_X7k9g.graphics.endFill();
-			_X7k9g.x = xp;
-			_X7k9g.y = yp;
-			_X7k9g.rotation = -orientation * 90;
-			_X7k9g.cacheAsBitmap = true;
-			holder.addChild(_X7k9g);
+			arrow.graphics.beginFill(0x000000);
+			arrow.graphics.moveTo(0, 0-3);
+			arrow.graphics.lineTo(w/2+2, h);
+			arrow.graphics.lineTo(-w/2-2, h);
+			arrow.graphics.endFill();
+			arrow.x = xp;
+			arrow.y = yp;
+			arrow.rotation = -orientation * 90;
+			arrow.cacheAsBitmap = true;
+			holder.addChild(arrow);
 		}
 		
-		private function _zwuwC(xp:Number, yp:Number, w:Number, h:Number,holder:Sprite):void {
+		private function drawPanelX(xp:Number, yp:Number, w:Number, h:Number,holder:Sprite):void {
 			
 			holder.cacheAsBitmap = true;
 			

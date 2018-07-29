@@ -5,41 +5,42 @@ package com.alarex.visual.component
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class Wheel extends Sprite 
 	{
 		
-		private var _4OiRD:int = 30;
+		private var count:int = 30;
 		
-		private var _gKtav:Array = new Array();
+		private var marks:Array = new Array();
 		
-		private var _Ks3pC:Number = 0;
+		private var anim:Number = 0;
 		
-		private var _0IV8L:Array = new Array();
-		private var _KpO4T:Array = new Array();
+		private var lookup1:Array = new Array();
+		private var lookup2:Array = new Array();
 		
-		private var _mSjB8:int;
-		private var _j097W:int = 0;
+		private var cx:int;
+		private var ac:int = 0;
 		
-		private var _Cx0H7:Number = 0;
+		private var factor:Number = 0;
 		
 		
 		public function Wheel() 
 		{
-						
+			// 105x10
+			
 			this.cacheAsBitmap = true;
 			
-			var _6uv32:Matrix = new Matrix();
-			var _cfd0j:Array;
-			_cfd0j  = [0x000000, 0xBBBBBB];
-			var _DoI0o:Array =[1,1];
-			var _CGLuH:Array =[0,255];
-			_6uv32.createGradientBox(105, 10, Math.PI / 2, 0, -1);
+			var mat:Matrix = new Matrix();
+			var colors:Array;
+			colors  = [0x000000, 0xBBBBBB];
+			var alphas:Array =[1,1];
+			var ratios:Array =[0,255];
+			mat.createGradientBox(105, 10, Math.PI / 2, 0, -1);
 			
-			this.graphics.beginGradientFill(GradientType.LINEAR,_cfd0j,_DoI0o,_CGLuH,_6uv32);
+			this.graphics.beginGradientFill(GradientType.LINEAR,colors,alphas,ratios,mat);
 			this.graphics.drawRect(0, 0, 105, 10);
 			this.graphics.endFill();
 			
@@ -49,139 +50,142 @@ package com.alarex.visual.component
 			
 			
 			
-			var _Z5Dz5:Matrix = new Matrix();
-			var _A1vW8:Array = _cfd0j  = [0x090909, 0xAAAAAA, 0xBBBBBB, 0xAAAAAA, 0x090909];
-			var _X4Cie:Array = [1, 1, 1, 1, 1];
-			var _VYrOH:Array =[0.5,0.5,0.5,0.5,0.5];
-			var _wZQvw:Array =[0,100,128,150,255];
-			_Z5Dz5.createGradientBox(105, 2, Math.PI, 0, 0);
-			this.graphics.beginGradientFill(GradientType.LINEAR, _A1vW8, _X4Cie, _wZQvw, _Z5Dz5);
+			var mat2:Matrix = new Matrix();
+			var colors2:Array = colors  = [0x090909, 0xAAAAAA, 0xBBBBBB, 0xAAAAAA, 0x090909];
+			var alphas2:Array = [1, 1, 1, 1, 1];
+			var alphas3:Array =[0.5,0.5,0.5,0.5,0.5];
+			var ratios2:Array =[0,100,128,150,255];
+			mat2.createGradientBox(105, 2, Math.PI, 0, 0);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors2, alphas2, ratios2, mat2);
 			this.graphics.drawRect(4, 3, 97, 2);
 			this.graphics.endFill();
 			
-			this.graphics.beginGradientFill(GradientType.LINEAR, _A1vW8, _VYrOH, _wZQvw, _Z5Dz5);
+			this.graphics.beginGradientFill(GradientType.LINEAR, colors2, alphas3, ratios2, mat2);
 			this.graphics.drawRect(4, 5, 97, 2);
 			this.graphics.endFill();
 			
-			var _lyUUw:Sprite = new Sprite();
-			_lyUUw.graphics.beginFill(0xffffff);
-			_lyUUw.graphics.drawRect(4, 5, 97, 4);
-			_lyUUw.graphics.endFill();
+			var msk:Sprite = new Sprite();
+			msk.graphics.beginFill(0xffffff);
+			msk.graphics.drawRect(4, 5, 97, 4);
+			msk.graphics.endFill();
 			
-			_lyUUw.cacheAsBitmap = true;
+			msk.cacheAsBitmap = true;
 			
+		//	this.addChild(msk);
+		//	this.mask = msk;
+			
+			
+			for (var i:int = 0; i < count; i++) {
+				var s:Sprite = new Sprite();
+				s.cacheAsBitmap = true;
+				s.graphics.beginFill(0x000000, 0.5);
+				s.graphics.drawRect(0, 0, 1, 1);
+				s.graphics.endFill();
+				
+				marks.push(s);
+				this.addChild(s);
+			}
+			
+			cx = 2 * Math.PI / 0.01;
+			
+			var l1:Number = -Math.PI;
+			var l2:Number = -Math.PI-Math.PI/300;
+			
+			for (var j:int = 0; j < cx; j++) {
+				
+				lookup1.push(Math.cos(l1)*50+51);
+				lookup2.push(Math.cos(l2)*50+51);
+				
+				l1 -= 0.01;
+				l2 -= 0.01;
+			}
 							
+			drawEffect(0);
 			
-			for (var _YrIb5:int = 0; _YrIb5 < _4OiRD; _YrIb5++) {
-				var _GmEhI:Sprite = new Sprite();
-				_GmEhI.cacheAsBitmap = true;
-				_GmEhI.graphics.beginFill(0x000000, 0.5);
-				_GmEhI.graphics.drawRect(0, 0, 1, 1);
-				_GmEhI.graphics.endFill();
-				
-				_gKtav.push(_GmEhI);
-				this.addChild(_GmEhI);
-			}
-			
-			_mSjB8 = 2 * Math.PI / 0.01;
-			
-			var _HCgSO:Number = -Math.PI;
-			var _YDkz6:Number = -Math.PI-Math.PI/300;
-			
-			for (var _ipNVU:int = 0; _ipNVU < _mSjB8; _ipNVU++) {
-				
-				_0IV8L.push(Math.cos(_HCgSO)*50+51);
-				_KpO4T.push(Math.cos(_YDkz6)*50+51);
-				
-				_HCgSO -= 0.01;
-				_YDkz6 -= 0.01;
-			}
-							
-			_Ot3Fm(0);
-			
-			addEventListener(Event.ENTER_FRAME,_Dmp56);
+			addEventListener(Event.ENTER_FRAME,updateAnim);
 		}
 		
-		public function _Dmp56(e:Event):void {
-					if (this._Cx0H7 != 0) {
-				_Wio23(_j097W);
+		public function updateAnim(e:Event):void {
+		//	drawEffect(anim);
+			if (this.factor != 0) {
+				drawEffect2(ac);
 			}
 			
-			_j097W += 1+3*this._Cx0H7;
+			ac += 1+3*this.factor;
 			
-			if (this._Cx0H7 == 0) {
-			_j097W = 0;
+			if (this.factor == 0) {
+			ac = 0;
 			}
 			
-			if (_j097W > 10) _j097W = 0;
+			if (ac > 10) ac = 0;
 		}
 		
-		private function _RSmdM(off:int):Number {
+		private function getLookup1(off:int):Number {
 			
-			return (_0IV8L[off % _mSjB8] as Number);
+			return (lookup1[off % cx] as Number);
 			
 		}
 		
-		private function _5DeU3(off:int):Number {
+		private function getLookup2(off:int):Number {
 			
-			return (_KpO4T[off % _mSjB8] as Number);
+			return (lookup2[off % cx] as Number);
 			
 		}
 		
-		public function _Wio23(offset:int):void {
+		public function drawEffect2(offset:int):void {
 						
-			for (var _YrIb5:int = 0; _YrIb5 < _4OiRD; _YrIb5++) {
+			for (var i:int = 0; i < count; i++) {
 				
-				var _fbLAG:Number = _RSmdM(offset + _YrIb5*10);
-				var _k6RSb:Number = _5DeU3(offset + _YrIb5*10+3);
+				var x1:Number = getLookup1(offset + i*10);
+				var x2:Number = getLookup2(offset + i*10+3);
 				
-				var _fzTR3:Number = _k6RSb - _fbLAG;
+				var d:Number = x2 - x1;
 				
-				var _d0hsm:Sprite = this._gKtav[_YrIb5] as Sprite;
+				var m:Sprite = this.marks[i] as Sprite;
 				
-				_d0hsm.x = _fbLAG;
-				_d0hsm.y = 3;
-				_d0hsm.width = _fzTR3;
-				_d0hsm.height = 4;
+				m.x = x1;
+				m.y = 3;
+				m.width = d;
+				m.height = 4;
 																
 			}
 			
 		}
 		
-		public function _5rG7K(f:Number):void {
+		public function setSpeedFactor(f:Number):void {
 			
-			var _a5cPv:Number = f;
-			if (_a5cPv < 0) _a5cPv = 0;
-			if (_a5cPv > 1) _a5cPv = 1;
+			var v:Number = f;
+			if (v < 0) v = 0;
+			if (v > 1) v = 1;
 			
-			this._Cx0H7 = _a5cPv;
+			this.factor = v;
 			
 		}
 		
 		
-		public function _Ot3Fm(offset:Number):void {
-			var _xVAl8:Number = 100;
+		public function drawEffect(offset:Number):void {
+			var rad:Number = 100;
 		
-			var _GmEhI:Number = Math.PI / _4OiRD;
-			var _drqM3:Number = Math.PI / (_4OiRD * 3);
+			var s:Number = Math.PI / count;
+			var w:Number = Math.PI / (count * 3);
 			
-			var _3yy3E:Number = Math.PI - offset;
+			var step:Number = Math.PI - offset;
 			
-			for (var _YrIb5:int = 0; _YrIb5 < _4OiRD; _YrIb5++) {
+			for (var i:int = 0; i < count; i++) {
 				
-				var _fbLAG:Number = Math.cos(_3yy3E) * (_xVAl8 / 2) + 51;
-				var _k6RSb:Number = Math.cos(_3yy3E - _drqM3) * (_xVAl8 / 2) + 51;
+				var x1:Number = Math.cos(step) * (rad / 2) + 51;
+				var x2:Number = Math.cos(step - w) * (rad / 2) + 51;
 				
-				var _fzTR3:Number = _k6RSb - _fbLAG;
+				var d:Number = x2 - x1;
 				
-				var _d0hsm:Sprite = this._gKtav[_YrIb5] as Sprite;
+				var m:Sprite = this.marks[i] as Sprite;
 				
-				_d0hsm.x = _fbLAG;
-				_d0hsm.y = 3;
-				_d0hsm.width = _fzTR3;
-				_d0hsm.height = 4;
+				m.x = x1;
+				m.y = 3;
+				m.width = d;
+				m.height = 4;
 																
-				_3yy3E -= _GmEhI;
+				step -= s;
 			}
 			
 		}

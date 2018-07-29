@@ -7,135 +7,136 @@ package com.alarex.visual.component
 	import flash.geom.Matrix;
 	import flash.display.GradientType;
 	
-
-
-
-
+	/**
+	 * ...
+	 * @author Lukas Benda, luke.benda@gmail.com
+	 */
 	public class SmallLabel extends Sprite 
 	{
 		
-		[Embed(source='\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x2e\x2e\x2f\x6c\x69\x62\x2f\x76\x6f\x64\x61\x66\x6f\x6e\x65\x2e\x74\x74\x66', fontFamily="\x76\x6f\x64\x61\x46\x6f\x6e\x74")]
-		public var _yHjt9:Class;
+		[Embed(source='../../../../../lib/vodafone.ttf', fontFamily="vodaFont")]
+		public var VodaFont:Class;
 		
-		private var _bWrUZ:String;
+		private var lab:String;
 		
-		private var _xcaYQ:Number;
-		private var _7pnA7:Number;
+		private var xres:Number;
+		private var yres:Number;
 		
 		public function SmallLabel(label:String,size:Number,shine:Boolean,shadow:Boolean=true) 
 		{
 			this.cacheAsBitmap = true;
 			
-			this._bWrUZ = label;
-			var _GMzCB:Number = -0.8;
+			this.lab = label;
+			var xoff:Number = -0.8;
 			
 			if (shine) {
 			
-			var _PHPLQ:TextField = new TextField();
-			_PHPLQ.selectable = false;
-			_PHPLQ.cacheAsBitmap = true;
-			_PHPLQ.antiAliasType = AntiAliasType.ADVANCED;
-			_PHPLQ.embedFonts = true;
+			var text3:TextField = new TextField();
+			text3.selectable = false;
+			text3.cacheAsBitmap = true;
+			text3.antiAliasType = AntiAliasType.ADVANCED;
+			text3.embedFonts = true;
 			
-			_PHPLQ._QYe4V = _bWrUZ;
-			_PHPLQ.alpha = 1;
-			_PHPLQ.x = _GMzCB;
-			_PHPLQ.y = -1;
-			_PHPLQ.height = size * 2;
+			text3.text = lab;
+			text3.alpha = 1;
+			text3.x = xoff;
+			text3.y = -1;
+			text3.height = size * 2;
 						
-			var _8nTCt:TextFormat = new TextFormat();
-			_8nTCt.size = size;
-			_8nTCt.font = "\x76\x6f\x64\x61\x46\x6f\x6e\x74";
-			_8nTCt.color = 0xdddddd;
+			var format3:TextFormat = new TextFormat();
+			format3.size = size;
+			format3.font = "vodaFont";
+			format3.color = 0xdddddd;
 			
-			_PHPLQ.setTextFormat(_8nTCt);
-			_PHPLQ.width = _PHPLQ.textWidth + size;
-			_PHPLQ.height = _PHPLQ.textHeight;
+			text3.setTextFormat(format3);
+			text3.width = text3.textWidth + size;
+			text3.height = text3.textHeight;
 			
-			this.addChild(_PHPLQ);
+			this.addChild(text3);
 			
 			}
 			
 			if (shadow) {
 
-			var _QYe4V:TextField = new TextField();
-			_QYe4V.selectable = false;
+			var text:TextField = new TextField();
+			text.selectable = false;
 			
-			_QYe4V.antiAliasType = AntiAliasType.ADVANCED;
-			_QYe4V.embedFonts = true;
+			text.antiAliasType = AntiAliasType.ADVANCED;
+			text.embedFonts = true;
 			
-			_QYe4V._QYe4V = _bWrUZ;
-			_QYe4V.alpha = 1;
-			_QYe4V.x = _GMzCB;
-			_QYe4V.y = 2;
-			_QYe4V.height = size * 2;
-			_QYe4V.cacheAsBitmap = true;
+			text.text = lab;
+			text.alpha = 1;
+			text.x = xoff;
+			text.y = 2;
+			text.height = size * 2;
+			text.cacheAsBitmap = true;
 			
-			var _1GrRA:TextFormat = new TextFormat();
-			_1GrRA.size = size;
-			_1GrRA.font = "\x76\x6f\x64\x61\x46\x6f\x6e\x74";
-			_1GrRA.color = 0x000000;
+			var format:TextFormat = new TextFormat();
+			format.size = size;
+			format.font = "vodaFont";
+			format.color = 0x000000;
 			
-			_QYe4V.setTextFormat(_1GrRA);
-			_QYe4V.width = _QYe4V.textWidth + size;
-			_QYe4V.height = _QYe4V.textHeight;
+			text.setTextFormat(format);
+			text.width = text.textWidth + size;
+			text.height = text.textHeight;
 			
-			this.addChild(_QYe4V);
+			this.addChild(text);
 
 			}
 			
-			var _RrpM4:Sprite = new Sprite();
+			var overlay:Sprite = new Sprite();
 			
-			var _YiRdd:Matrix = new Matrix();
-			var _YKxmZ:Array =[0x666666,0xffffff,0xffffff];  
-			var _6uPXA:Array =[1,1,1];
-			var _TScKc:Array =[0,180,255];
-			_YiRdd.createGradientBox(1, 1,Math.PI/2,0,0);
-			_RrpM4.graphics.beginGradientFill(GradientType.LINEAR,_YKxmZ,_6uPXA,_TScKc,_YiRdd);
-			_RrpM4.graphics.drawRect(0, 0, 1, 1);
-			_RrpM4.graphics.endFill();
-			_RrpM4.cacheAsBitmap = true;
-			this.addChild(_RrpM4);
+			var mat2:Matrix = new Matrix();
+			var colors2:Array =[0x666666,0xffffff,0xffffff];  
+			var alphas2:Array =[1,1,1];
+			var ratios2:Array =[0,180,255];
+			mat2.createGradientBox(1, 1,Math.PI/2,0,0);
+			overlay.graphics.beginGradientFill(GradientType.LINEAR,colors2,alphas2,ratios2,mat2);
+			overlay.graphics.drawRect(0, 0, 1, 1);
+			overlay.graphics.endFill();
+			overlay.cacheAsBitmap = true;
+			this.addChild(overlay);
 			
 	
-			var _D7MUg:TextField = new TextField();
-			_D7MUg.selectable = false;
+			var text2:TextField = new TextField();
+			text2.selectable = false;
 			
-			_D7MUg.antiAliasType = AntiAliasType.ADVANCED;
-			_D7MUg.embedFonts = true;
-			_D7MUg.cacheAsBitmap = true;
-			_D7MUg._QYe4V = _bWrUZ;
-			_D7MUg.alpha = 1;
-			_D7MUg.x = 0;
-			_D7MUg.y = 0;
-			_D7MUg.height = size*2;
+			text2.antiAliasType = AntiAliasType.ADVANCED;
+			text2.embedFonts = true;
+			text2.cacheAsBitmap = true;
+			text2.text = lab;
+			text2.alpha = 1;
+			text2.x = 0;
+			text2.y = 0;
+			text2.height = size*2;
 			
-			var _JO6e9:TextFormat = new TextFormat();
-			_JO6e9.size = size;
-			_JO6e9.font = "\x76\x6f\x64\x61\x46\x6f\x6e\x74";
-			_JO6e9.color = 0x000ff;
+			var format2:TextFormat = new TextFormat();
+			format2.size = size;
+			format2.font = "vodaFont";
+			format2.color = 0x000ff;
 			
-			_D7MUg.setTextFormat(_JO6e9);
-			_D7MUg.width = _D7MUg.textWidth + size;
-			_D7MUg.height = _D7MUg.textHeight;
+			text2.setTextFormat(format2);
+			text2.width = text2.textWidth + size;
+			text2.height = text2.textHeight;
 			
-			_RrpM4.width = _D7MUg.width;
-			_RrpM4.height = _D7MUg.height;
+			overlay.width = text2.width;
+			overlay.height = text2.height;
 			
-			this.addChild(_D7MUg);
-			_RrpM4.cacheAsBitmap = true;
-						_RrpM4.mask = _D7MUg;
+			this.addChild(text2);
+			overlay.cacheAsBitmap = true;
+			//mask.cacheAsBitmap = true;
+			overlay.mask = text2;
 			
-			this._xcaYQ = _D7MUg.textWidth;
-			this._7pnA7 = _D7MUg.textHeight;
+			this.xres = text2.textWidth;
+			this.yres = text2.textHeight;
 		}
 		
-		public function _gqhjY():Number {
-			return this._xcaYQ;
+		public function getXres():Number {
+			return this.xres;
 		}
 		
-		public function _8OoYj():Number {
-			return this._7pnA7;
+		public function getYres():Number {
+			return this.yres;
 		}
 		
 	}

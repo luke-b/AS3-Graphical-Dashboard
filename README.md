@@ -2,6 +2,7 @@
 # Vector Graphics Animated Dashboard for Solar Energy Generation Monitoring
 Graphical animated fully customizable dashboard for energy generation/consumption monitoring.<br/>
 All components are strictly vector-based thus can be scaled/printed in arbitrary resolution and size.<br/>
+https://www.youtube.com/watch?v=mcPXNda-Jj0<br/>
 
 <img src="https://raw.githubusercontent.com/luke-b/Graphical-Dashboard/master/solar-flash-as3.png">
 <img src="https://github.com/luke-b/Graphical-Dashboard/raw/master/hires-dashboard.png">
